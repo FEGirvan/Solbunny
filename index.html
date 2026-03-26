@@ -3,130 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolBunny | The Fastest Cyber-Meme on Solana</title>
+    <title>SolBunny AI | The Intelligence of Solana</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Rajdhani', sans-serif; background-color: #060110; scroll-behavior: smooth; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #030008; scroll-behavior: smooth; }
         .font-meme { font-family: 'Bungee', cursive; }
-        .neon-purple { color: #9945FF; text-shadow: 0 0 10px #9945FF; }
-        .neon-green { color: #14F195; text-shadow: 0 0 10px #14F195; }
-        .gradient-border { 
-            background: linear-gradient(to right, #9945FF, #14F195);
-            padding: 1px;
-        }
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(153, 69, 255, 0.2);
-        }
-        .hero-glow {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(153, 69, 255, 0.2) 0%, transparent 70%);
-            z-index: 0;
-        }
+        .neon-text { text-shadow: 0 0 15px rgba(20, 241, 149, 0.6); }
+        .bunny-gradient { background: linear-gradient(90deg, #9945FF, #14F195); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
+        .roadmap-card:hover { border-color: #14F195; transform: translateY(-5px); transition: all 0.3s; }
     </style>
 </head>
-<body class="text-white selection:bg-purple-500 selection:text-white">
+<body class="text-white">
 
-    <nav class="fixed w-full z-50 top-0 glass-card border-b border-white/5 px-6 py-4">
+    <nav class="fixed w-full z-50 top-0 border-b border-white/5 bg-black/50 backdrop-blur-md px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-3xl font-meme neon-green tracking-tighter">SOLBUNNY</div>
-            <div class="hidden md:flex space-x-10 uppercase font-bold tracking-[0.2em] text-sm">
-                <a href="#about" class="hover:text-purple-400 transition">Mission</a>
-                <a href="#tokenomics" class="hover:text-purple-400 transition">Stats</a>
-                <a href="#roadmap" class="hover:text-purple-400 transition">Map</a>
+            <div class="text-2xl font-meme bunny-gradient">SOLBUNNY AI</div>
+            <div class="hidden md:flex space-x-8 font-bold uppercase text-xs tracking-widest">
+                <a href="#vision" class="hover:text-green-400">Vision</a>
+                <a href="#tokenomics" class="hover:text-green-400">Data</a>
+                <a href="#roadmap" class="hover:text-green-400">Algorithm</a>
             </div>
-            <button class="bg-white text-black px-6 py-2 font-bold skew-x-[-12deg] hover:bg-green-400 transition transform duration-200">
-                <span class="inline-block skew-x-[12deg]">BUY NOW</span>
-            </button>
+            <button class="bg-[#14F195] text-black px-6 py-2 font-bold hover:scale-105 transition">BUY $SOLBUNNY</button>
         </div>
     </nav>
 
-    <section class="relative min-h-screen flex items-center pt-20 px-6 overflow-hidden">
-        <div class="hero-glow top-1/4 right-1/4"></div>
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
-            
-            <div>
-                <h1 class="text-6xl md:text-8xl font-meme leading-[0.9] mb-6">
-                    HACK THE <br><span class="neon-purple underline decoration-green-400">SOLANA</span><br> SYSTEM
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="relative z-10">
+                <div class="inline-block bg-purple-500/20 text-purple-400 px-4 py-1 rounded-full text-xs font-bold mb-6 border border-purple-500/30">
+                    POWERED BY AI COMMUNITY
+                </div>
+                <h1 class="text-6xl md:text-8xl font-meme leading-none mb-6">
+                    THE <span class="neon-text">SMART</span><br>WAY TO <span class="text-purple-500">MEME</span>
                 </h1>
-                <p class="text-xl text-gray-400 mb-10 tracking-widest uppercase">
-                    The fastest bunny in the digital wasteland. No taxes. No limits. Just pure speed.
+                <p class="text-lg text-gray-400 mb-8 max-w-md">
+                    SolBunny is the first AI-integrated meme project on Solana. We don't just hop; we calculate the moon.
                 </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 mb-12">
-                    <a href="#" class="bg-purple-600 hover:bg-purple-500 px-10 py-4 font-bold text-center transition shadow-[0_0_20px_rgba(153,69,255,0.4)]">TELEGRAM</a>
-                    <a href="#" class="border border-green-400 text-green-400 px-10 py-4 font-bold text-center hover:bg-green-400/10 transition">DEXTOOLS</a>
-                </div>
-
-                <div class="glass-card p-4 rounded-lg flex items-center justify-between border border-purple-500/30">
-                    <div class="overflow-hidden">
-                        <span class="text-[10px] text-purple-400 font-bold uppercase block">Official Contract Address</span>
-                        <code class="text-xs md:text-sm text-gray-300">5unnyBNY...G87vSolanaAddress</code>
-                    </div>
-                    <button class="text-green-400 font-bold hover:text-white ml-4 uppercase text-xs" onclick="alert('Address Copied!')">Copy</button>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#" class="bg-white text-black px-8 py-4 font-bold rounded-lg hover:bg-green-400 transition">JOIN THE BURROW</a>
+                    <a href="#" class="border border-white/20 px-8 py-4 font-bold rounded-lg hover:bg-white/10 transition">AI BOT (LIVE SOON)</a>
                 </div>
             </div>
 
-            <div class="relative flex justify-center">
-                <div class="relative z-10 w-full max-w-[500px]">
-                    <div class="absolute -inset-4 bg-gradient-to-t from-purple-600/20 to-transparent blur-2xl opacity-50 animate-pulse"></div>
-                    <img src="IMG_4646.png" alt="SolBunny Mascot" class="w-full drop-shadow-[0_0_80px_rgba(153,69,255,0.3)] transform hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-white/5 rounded-full animate-[spin_20s_linear_infinite]"></div>
+            <div class="relative group">
+                <div class="absolute inset-0 bg-purple-600/20 blur-[100px] rounded-full group-hover:bg-green-500/20 transition duration-700"></div>
+                <img src="IMG_4646.png" alt="SolBunny AI Mascot" class="relative z-10 w-full animate-[bounce_4s_ease-in-out_infinite] drop-shadow-[0_0_30px_rgba(153,69,255,0.5)]">
             </div>
         </div>
     </section>
 
-    <section id="tokenomics" class="py-20 px-6 max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="glass-card p-8 text-center group hover:border-green-400 transition duration-500">
-                <h3 class="text-gray-500 uppercase text-sm tracking-[0.3em] mb-2">Total Supply</h3>
-                <p class="text-4xl font-meme group-hover:neon-green transition">1,000,000,000</p>
+    <section id="roadmap" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-meme mb-4">THE EVOLUTION MAP</h2>
+            <p class="text-gray-500 uppercase tracking-widest">From Algorithm to World Domination</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="glass p-8 rounded-2xl roadmap-card">
+                <div class="text-green-400 font-meme text-2xl mb-4">Phase 01</div>
+                <h3 class="font-bold text-xl mb-3">NEURAL LAUNCH</h3>
+                <ul class="text-gray-400 text-sm space-y-2">
+                    <li>• Stealth Launch on Solana</li>
+                    <li>• 1,000+ Organic Holders</li>
+                    <li>• Viral Twitter AI Raids</li>
+                    <li>• Community Meme Mining</li>
+                </ul>
             </div>
-            <div class="glass-card p-8 text-center group hover:border-purple-400 transition duration-500">
-                <h3 class="text-gray-500 uppercase text-sm tracking-[0.3em] mb-2">Transaction Tax</h3>
-                <p class="text-4xl font-meme group-hover:neon-purple transition">0% / 0%</p>
+
+            <div class="glass p-8 rounded-2xl roadmap-card border-purple-500/50">
+                <div class="text-purple-400 font-meme text-2xl mb-4">Phase 02</div>
+                <h3 class="font-bold text-xl mb-3">AI CORE BETA</h3>
+                <ul class="text-gray-400 text-sm space-y-2">
+                    <li>• Release "BunnyBot" AI</li>
+                    <li>• Automatic Meme Generator</li>
+                    <li>• CMC & CoinGecko Listing</li>
+                    <li>• Partnership with AI KOLs</li>
+                </ul>
             </div>
-            <div class="glass-card p-8 text-center group hover:border-green-400 transition duration-500">
-                <h3 class="text-gray-500 uppercase text-sm tracking-[0.3em] mb-2">Liquidity Pool</h3>
-                <p class="text-4xl font-meme group-hover:neon-green transition uppercase tracking-tighter">BURNED 🔥</p>
+
+            <div class="glass p-8 rounded-2xl roadmap-card">
+                <div class="text-green-400 font-meme text-2xl mb-4">Phase 03</div>
+                <h3 class="font-bold text-xl mb-3">QUANTUM REACH</h3>
+                <ul class="text-gray-400 text-sm space-y-2">
+                    <li>• CEX Tier-1 Listings</li>
+                    <li>• BunnyAI NFT Collection</li>
+                    <li>• Community DAO Governance</li>
+                    <li>• 50,000+ Holders</li>
+                </ul>
+            </div>
+
+            <div class="glass p-8 rounded-2xl roadmap-card bg-green-400/5 text-black">
+                <div class="text-green-400 font-meme text-2xl mb-4">Phase 04</div>
+                <h3 class="font-bold text-xl mb-3 text-white">THE SINGULARITY</h3>
+                <ul class="text-gray-400 text-sm space-y-2">
+                    <li>• SolBunny AI Ecosystem</li>
+                    <li>• Rabbit-Hole Metaverse</li>
+                    <li>• Global Charity for Bunnies</li>
+                    <li>• Flip the Moon</li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <section id="roadmap" class="py-24 px-6 max-w-4xl mx-auto">
-        <h2 class="text-5xl font-meme text-center mb-16 neon-green">THE HOP PLAN</h2>
-        <div class="space-y-8">
-            <div class="flex gap-6 items-start">
-                <div class="text-4xl font-meme text-purple-600">Q1</div>
-                <div class="glass-card flex-1 p-6 border-l-4 border-purple-600">
-                    <h4 class="text-xl font-bold uppercase mb-2">System Reboot</h4>
-                    <p class="text-gray-400">Launch website, build the burrow (community), and stealth launch on Raydium.</p>
-                </div>
+    <section id="tokenomics" class="py-20 bg-white/5 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="text-gray-500 text-xs uppercase mb-2 tracking-widest">Total Supply</div>
+                <div class="text-3xl font-meme">1B $SOLBUNNY</div>
             </div>
-            <div class="flex gap-6 items-start">
-                <div class="text-4xl font-meme text-green-600">Q2</div>
-                <div class="glass-card flex-1 p-6 border-l-4 border-green-600">
-                    <h4 class="text-xl font-bold uppercase mb-2">Cyber Viral</h4>
-                    <p class="text-gray-400">Global marketing assault, CEX listings, and first 10,000 holders.</p>
-                </div>
+            <div>
+                <div class="text-gray-500 text-xs uppercase mb-2 tracking-widest">Taxation</div>
+                <div class="text-3xl font-meme text-green-400">0% ZERO</div>
+            </div>
+            <div>
+                <div class="text-gray-500 text-xs uppercase mb-2 tracking-widest">LP Status</div>
+                <div class="text-3xl font-meme text-purple-500">BURNED</div>
+            </div>
+            <div>
+                <div class="text-gray-500 text-xs uppercase mb-2 tracking-widest">Ownership</div>
+                <div class="text-3xl font-meme">RENOUNCED</div>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 border-t border-white/5 text-center">
-        <p class="text-gray-600 text-sm tracking-[0.5em] uppercase mb-4">Powered by Solana Blockchain</p>
-        <div class="flex justify-center space-x-6 mb-8">
-            <a href="#" class="hover:text-green-400 uppercase text-xs font-bold transition">Twitter</a>
-            <a href="#" class="hover:text-green-400 uppercase text-xs font-bold transition">Telegram</a>
-            <a href="#" class="hover:text-green-400 uppercase text-xs font-bold transition">Chart</a>
+    <footer class="py-20 text-center px-6">
+        <div class="text-5xl font-meme bunny-gradient mb-8 leading-none">DON'T MISS THE HOP.</div>
+        <div class="flex justify-center space-x-8 mb-12 text-sm font-bold opacity-60">
+            <a href="#" class="hover:text-green-400 transition">TWITTER</a>
+            <a href="#" class="hover:text-green-400 transition">TELEGRAM</a>
+            <a href="#" class="hover:text-green-400 transition">DEXSCREENER</a>
         </div>
-        <p class="text-[10px] text-gray-700">© 2026 SOLBUNNY. THIS IS A MEME COIN WITH NO INTRINSIC VALUE. HOP AT YOUR OWN RISK.</p>
-    </footer>
-
-</body>
-</html>
+        <p class="text-[10px] text-gray-700
