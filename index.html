@@ -3,124 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SolBunny - The Fastest Bunny on Solana</title>
+<title>SolBunny - The Cutest Meme on Solana</title>
 
 <style>
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: Arial, sans-serif;
-}
-
 body {
-color: white;
+margin: 0;
+font-family: 'Comic Sans MS', cursive;
+background: linear-gradient(135deg, #ffdee9, #b5fffc);
 text-align: center;
-overflow-x: hidden;
-background: linear-gradient(-45deg, #0f0f0f, #001f1a, #002b24, #000000);
-background-size: 400% 400%;
-animation: gradientMove 12s ease infinite;
-}
-
-@keyframes gradientMove {
-0% { background-position: 0% 50%; }
-50% { background-position: 100% 50%; }
-100% { background-position: 0% 50%; }
+color: #333;
 }
 
 nav {
 display: flex;
 justify-content: space-between;
 padding: 20px 40px;
-position: fixed;
-width: 100%;
-top: 0;
-background: rgba(0,0,0,0.6);
-backdrop-filter: blur(10px);
-z-index: 1000;
+background: #ff69b4;
+color: white;
+font-weight: bold;
 }
 
 nav a {
 color: white;
 text-decoration: none;
-margin: 0 15px;
-font-weight: bold;
-transition: 0.3s;
-}
-
-nav a:hover {
-color: #00ff99;
+margin-left: 20px;
 }
 
 .hero {
-padding: 180px 20px 120px;
+padding: 80px 20px;
 }
 
 .hero img {
-width: 220px;
-margin-bottom: 30px;
-filter: drop-shadow(0 0 20px #00ff99);
-animation: float 4s ease-in-out infinite;
+width: 250px;
+animation: bounce 2s infinite;
 }
 
-@keyframes float {
-0% { transform: translateY(0px); }
-50% { transform: translateY(-15px); }
-100% { transform: translateY(0px); }
+@keyframes bounce {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-20px); }
 }
 
 h1 {
-font-size: 55px;
-margin-bottom: 20px;
+font-size: 50px;
+color: #ff1493;
 }
 
-.highlight {
-color: #00ff99;
-text-shadow: 0 0 15px #00ff99;
+.subtitle {
+font-size: 20px;
+margin-top: 10px;
 }
 
-p {
-font-size: 18px;
-opacity: 0.9;
-}
-
-button {
-background: #00ff99;
-border: none;
-padding: 15px 35px;
-font-size: 18px;
-border-radius: 40px;
-cursor: pointer;
-margin-top: 30px;
+.button {
+display: inline-block;
+margin-top: 25px;
+padding: 15px 30px;
+background: #ff1493;
+color: white;
+border-radius: 30px;
 font-weight: bold;
+text-decoration: none;
 transition: 0.3s;
-box-shadow: 0 0 15px #00ff99;
 }
 
-button:hover {
+.button:hover {
+background: #ff69b4;
 transform: scale(1.1);
-box-shadow: 0 0 30px #00ff99;
 }
 
-section {
-padding: 100px 20px;
+.section {
+padding: 60px 20px;
 }
 
 .card {
-background: rgba(255,255,255,0.05);
-padding: 40px;
+background: white;
+padding: 30px;
 margin: 20px auto;
 border-radius: 20px;
 width: 80%;
 max-width: 600px;
-backdrop-filter: blur(10px);
+box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 footer {
-padding: 40px;
-background: rgba(0,0,0,0.7);
-font-size: 14px;
-opacity: 0.6;
+background: #ff69b4;
+padding: 20px;
+color: white;
+margin-top: 40px;
 }
 </style>
 </head>
@@ -128,53 +96,50 @@ opacity: 0.6;
 <body>
 
 <nav>
-<div><b>🐰 SOLBUNNY</b></div>
+<div>🐰 SolBunny</div>
 <div>
 <a href="#about">About</a>
 <a href="#tokenomics">Tokenomics</a>
 <a href="#roadmap">Roadmap</a>
-<a href="https://twitter.com/Solbunny" target="_blank">Twitter</a>
 </div>
 </nav>
 
 <div class="hero">
 <img src="44D039A5-5168-4040-B785-FF8C5A28AE70.png" alt="SolBunny Logo">
-<h1>The Fastest <span class="highlight">Bunny</span> on Solana</h1>
-<p>$BUN is hopping to the moon 🚀</p>
-<button>Buy $BUN</button>
+<h1>$BUN</h1>
+<div class="subtitle">The Cutest Bunny on Solana 🚀</div>
+<a href="#" class="button">Buy $BUN</a>
 </div>
 
-<section id="about">
+<div class="section" id="about">
 <div class="card">
 <h2>About SolBunny</h2>
-<p>SolBunny is a community-driven meme coin built on Solana.  
-Fast transactions. Zero tax. Pure meme power.  
-The bunny is here to dominate the chain.</p>
+<p>SolBunny is the cutest meme coin on Solana!  
+Fast, fluffy, and ready to hop to the moon 🌙  
+100% community powered.</p>
 </div>
-</section>
+</div>
 
-<section id="tokenomics">
+<div class="section" id="tokenomics">
 <div class="card">
 <h2>Tokenomics</h2>
 <p>Total Supply: 1,000,000,000 $BUN</p>
-<p>Liquidity Burned 🔥</p>
 <p>Tax: 0%</p>
-<p>Chain: Solana</p>
+<p>Liquidity: Locked 🔒</p>
 </div>
-</section>
+</div>
 
-<section id="roadmap">
+<div class="section" id="roadmap">
 <div class="card">
 <h2>Roadmap</h2>
-<p>Phase 1 – Launch & Build Community</p>
-<p>Phase 2 – Coin Listing</p>
-<p>Phase 3 – NFT Bunny Army</p>
-<p>Phase 4 – SolBunny Takes Over</p>
+<p>Phase 1 – Launch Bunny 🐰</p>
+<p>Phase 2 – Build Community 🎉</p>
+<p>Phase 3 – Meme Takeover 🚀</p>
 </div>
-</section>
+</div>
 
 <footer>
-© 2026 SolBunny. All Rights Reserved.
+© 2026 SolBunny • Hop to the Moon 🚀
 </footer>
 
 </body>
