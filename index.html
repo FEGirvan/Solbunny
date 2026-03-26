@@ -3,79 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolBunny | The Fastest Meme on Solana</title>
+    <title>SolBunny | The Fastest Cyber-Meme on Solana</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Rajdhani', sans-serif; background-color: #060110; scroll-behavior: smooth; }
         .font-meme { font-family: 'Bungee', cursive; }
-        .gradient-bg { background: linear-gradient(135deg, #9945FF 0%, #14F195 100%); }
+        .neon-purple { color: #9945FF; text-shadow: 0 0 10px #9945FF; }
+        .neon-green { color: #14F195; text-shadow: 0 0 10px #14F195; }
+        .gradient-border { 
+            background: linear-gradient(to right, #9945FF, #14F195);
+            padding: 1px;
+        }
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.02); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(153, 69, 255, 0.2);
+        }
+        .hero-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(153, 69, 255, 0.2) 0%, transparent 70%);
+            z-index: 0;
+        }
     </style>
 </head>
-<body class="bg-slate-900 text-white overflow-x-hidden">
+<body class="text-white selection:bg-purple-500 selection:text-white">
 
-    <nav class="flex justify-between items-center p-6 max-w-7xl mx-auto">
-        <div class="text-2xl font-meme text-green-400">🐰 SOLBUNNY</div>
-        <div class="hidden md:flex space-x-8 font-bold">
-            <a href="#" class="hover:text-purple-400 transition">About</a>
-            <a href="#" class="hover:text-purple-400 transition">Tokenomics</a>
-            <a href="#" class="hover:text-purple-400 transition">Roadmap</a>
-            <a href="#" class="hover:text-purple-400 transition">NFTs</a>
+    <nav class="fixed w-full z-50 top-0 glass-card border-b border-white/5 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-3xl font-meme neon-green tracking-tighter">SOLBUNNY</div>
+            <div class="hidden md:flex space-x-10 uppercase font-bold tracking-[0.2em] text-sm">
+                <a href="#about" class="hover:text-purple-400 transition">Mission</a>
+                <a href="#tokenomics" class="hover:text-purple-400 transition">Stats</a>
+                <a href="#roadmap" class="hover:text-purple-400 transition">Map</a>
+            </div>
+            <button class="bg-white text-black px-6 py-2 font-bold skew-x-[-12deg] hover:bg-green-400 transition transform duration-200">
+                <span class="inline-block skew-x-[12deg]">BUY NOW</span>
+            </button>
         </div>
-        <button class="gradient-bg px-6 py-2 rounded-full font-bold hover:opacity-80 transition">
-            Buy Now
-        </button>
     </nav>
 
-    <section class="relative max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center">
-        <div class="md:w-1/2 z-10">
-            <h1 class="text-5xl md:text-7xl font-meme leading-tight mb-6">
-                HOP TO THE <span class="text-green-400">MOON</span> WITH SOLBUNNY
-            </h1>
-            <p class="text-lg text-slate-300 mb-8 max-w-lg">
-                SolBunny bukan sekadar token, ini adalah revolusi komunitas tercepat di jaringan Solana. 
-                Tanpa pajak, tanpa omong kosong, hanya wortel dan keuntungan.
-            </p>
+    <section class="relative min-h-screen flex items-center pt-20 px-6 overflow-hidden">
+        <div class="hero-glow top-1/4 right-1/4"></div>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
             
-            <div class="bg-slate-800 border border-slate-700 p-4 rounded-xl mb-8 flex justify-between items-center">
-                <code class="text-sm text-purple-300 break-all">CA: 5unny...solana...address...xyz</code>
-                <button class="ml-4 text-xs bg-slate-700 px-3 py-1 rounded hover:bg-slate-600">Copy</button>
+            <div>
+                <h1 class="text-6xl md:text-8xl font-meme leading-[0.9] mb-6">
+                    HACK THE <br><span class="neon-purple underline decoration-green-400">SOLANA</span><br> SYSTEM
+                </h1>
+                <p class="text-xl text-gray-400 mb-10 tracking-widest uppercase">
+                    The fastest bunny in the digital wasteland. No taxes. No limits. Just pure speed.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 mb-12">
+                    <a href="#" class="bg-purple-600 hover:bg-purple-500 px-10 py-4 font-bold text-center transition shadow-[0_0_20px_rgba(153,69,255,0.4)]">TELEGRAM</a>
+                    <a href="#" class="border border-green-400 text-green-400 px-10 py-4 font-bold text-center hover:bg-green-400/10 transition">DEXTOOLS</a>
+                </div>
+
+                <div class="glass-card p-4 rounded-lg flex items-center justify-between border border-purple-500/30">
+                    <div class="overflow-hidden">
+                        <span class="text-[10px] text-purple-400 font-bold uppercase block">Official Contract Address</span>
+                        <code class="text-xs md:text-sm text-gray-300">5unnyBNY...G87vSolanaAddress</code>
+                    </div>
+                    <button class="text-green-400 font-bold hover:text-white ml-4 uppercase text-xs" onclick="alert('Address Copied!')">Copy</button>
+                </div>
             </div>
 
-            <div class="flex space-x-4">
-                <a href="#" class="gradient-bg px-8 py-4 rounded-2xl font-bold text-lg shadow-lg shadow-purple-500/20">
-                    Join Telegram
-                </a>
-                <a href="#" class="border-2 border-green-400 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-green-400/10">
-                    Chart
-                </a>
+            <div class="relative flex justify-center">
+                <div class="relative z-10 w-full max-w-[500px]">
+                    <div class="absolute -inset-4 bg-gradient-to-t from-purple-600/20 to-transparent blur-2xl opacity-50 animate-pulse"></div>
+                    <img src="IMG_4646.png" alt="SolBunny Mascot" class="w-full drop-shadow-[0_0_80px_rgba(153,69,255,0.3)] transform hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-white/5 rounded-full animate-[spin_20s_linear_infinite]"></div>
             </div>
-        </div>
-
-        <div class="md:w-1/2 mt-16 md:mt-0 flex justify-center relative">
-            <div class="absolute w-72 h-72 bg-purple-500/20 rounded-full blur-3xl"></div>
-            <img src="https://via.placeholder.com/500x500.png?text=SolBunny+Mascot" alt="SolBunny Mascot" class="w-full max-w-md drop-shadow-2xl animate-bounce">
         </div>
     </section>
 
-    <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-slate-800/50 p-6 rounded-2xl text-center border border-slate-700">
-            <div class="text-slate-400 text-sm">Tax</div>
-            <div class="text-2xl font-meme text-green-400">0/0</div>
+    <section id="tokenomics" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-card p-8 text-center group hover:border-green-400 transition duration-500">
+                <h3 class="text-gray-500 uppercase text-sm tracking-[0.3em] mb-2">Total Supply</h3>
+                <p class="text-4xl font-meme group-hover:neon-green transition">1,000,000,000</p>
+            </div>
+            <div class="glass-card p-8 text-center group hover:border-purple-400 transition duration-500">
+                <h3 class="text-gray-500 uppercase text-sm tracking-[0.3em] mb-2">Transaction Tax</h3>
+                <p class="text-4xl font-meme group-hover:neon-purple transition">0% / 0%</p>
+            </div>
+            <div class="glass-card p-8 text-center group hover:border-green-400 transition duration-500">
+                <h3 class="text-gray-500 uppercase text-sm tracking-[0.3em] mb-2">Liquidity Pool</h3>
+                <p class="text-4xl font-meme group-hover:neon-green transition uppercase tracking-tighter">BURNED 🔥</p>
+            </div>
         </div>
-        <div class="bg-slate-800/50 p-6 rounded-2xl text-center border border-slate-700">
-            <div class="text-slate-400 text-sm">LP</div>
-            <div class="text-2xl font-meme text-green-400">Burned</div>
+    </section>
+
+    <section id="roadmap" class="py-24 px-6 max-w-4xl mx-auto">
+        <h2 class="text-5xl font-meme text-center mb-16 neon-green">THE HOP PLAN</h2>
+        <div class="space-y-8">
+            <div class="flex gap-6 items-start">
+                <div class="text-4xl font-meme text-purple-600">Q1</div>
+                <div class="glass-card flex-1 p-6 border-l-4 border-purple-600">
+                    <h4 class="text-xl font-bold uppercase mb-2">System Reboot</h4>
+                    <p class="text-gray-400">Launch website, build the burrow (community), and stealth launch on Raydium.</p>
+                </div>
+            </div>
+            <div class="flex gap-6 items-start">
+                <div class="text-4xl font-meme text-green-600">Q2</div>
+                <div class="glass-card flex-1 p-6 border-l-4 border-green-600">
+                    <h4 class="text-xl font-bold uppercase mb-2">Cyber Viral</h4>
+                    <p class="text-gray-400">Global marketing assault, CEX listings, and first 10,000 holders.</p>
+                </div>
+            </div>
         </div>
-        <div class="bg-slate-800/50 p-6 rounded-2xl text-center border border-slate-700">
-            <div class="text-slate-400 text-sm">Supply</div>
-            <div class="text-2xl font-meme text-green-400">1B</div>
+    </section>
+
+    <footer class="py-12 border-t border-white/5 text-center">
+        <p class="text-gray-600 text-sm tracking-[0.5em] uppercase mb-4">Powered by Solana Blockchain</p>
+        <div class="flex justify-center space-x-6 mb-8">
+            <a href="#" class="hover:text-green-400 uppercase text-xs font-bold transition">Twitter</a>
+            <a href="#" class="hover:text-green-400 uppercase text-xs font-bold transition">Telegram</a>
+            <a href="#" class="hover:text-green-400 uppercase text-xs font-bold transition">Chart</a>
         </div>
-        <div class="bg-slate-800/50 p-6 rounded-2xl text-center border border-slate-700">
-            <div class="text-slate-400 text-sm">Network</div>
-            <div class="text-2xl font-meme text-green-400">Solana</div>
-        </div>
-    </div>
+        <p class="text-[10px] text-gray-700">© 2026 SOLBUNNY. THIS IS A MEME COIN WITH NO INTRINSIC VALUE. HOP AT YOUR OWN RISK.</p>
+    </footer>
 
 </body>
 </html>
