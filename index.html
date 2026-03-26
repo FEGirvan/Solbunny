@@ -14,7 +14,7 @@
         .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(153, 69, 255, 0.2); border-radius: 1.5rem; }
         
         /* GAYA TOMBOL NAVBAR */
-        .bunny-btn { background: linear-gradient(90deg, #9945FF, #14F195); color: black; font-weight: bold; border-radius: 99px; transition: all 0.3s ease; text-decoration: none; }
+        .bunny-btn { background: linear-gradient(90deg, #9945FF, #14F195); color: black; font-weight: bold; border-radius: 99px; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
         .bunny-btn:hover { transform: scale(1.05); filter: brightness(1.2); box-shadow: 0 0 20px rgba(20, 241, 149, 0.5); }
         
         /* PERBAIKAN KHUSUS UNTUK KOTAK STATISTIK (MOBILE-FIRST) */
@@ -23,18 +23,22 @@
         .stat-label { color: #6b7280; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
         .stat-value { font-family: 'Bungee', cursive; line-height: 1.1; display: block; word-wrap: break-word; hyphens: auto; }
 
-        /* Penyesuaian ukuran teks untuk layar handphone (mobile) agar muat */
         @media (max-width: 640px) {
-            .stat-value { font-size: 1.25rem !important; } /* Teks 0%, BURNED, dll di mobile */
-            .stat-label { font-size: 0.55rem; } /* Label di mobile */
-            .neon-green { font-size: 1.5rem; } /* Judul BUNNY-NOMICS di mobile */
+            .stat-value { font-size: 1.1rem !important; }
+            .stat-label { font-size: 0.55rem; }
+            .neon-green { font-size: 1.5rem; }
         }
 
-        /* Penyesuaian ukuran teks untuk tablet dan desktop agar lebih besar */
         @media (min-width: 641px) {
             .stat-value { font-size: 1.75rem !important; }
             .stats-grid { gap: 1.5rem; max-width: 900px; }
         }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
     </style>
 </head>
 <body class="text-white selection:bg-green-500">
@@ -47,66 +51,62 @@
                 <a href="#howtobuy" class="hover:text-purple-400">Buy</a>
                 <a href="#roadmap" class="hover:text-purple-400">Map</a>
             </div>
-            <a href="PASTE_YOUR_TELEGRAM_LINK_HERE" target="_blank" class="bunny-btn px-6 py-2 text-sm">JOIN BURROW</a>
+            <a href="https://t.me/SolBunnyOfficial" target="_blank" class="bunny-btn px-6 py-2 text-sm">JOIN BURROW</a>
         </div>
     </nav>
-<section class="relative min-h-screen flex items-center pt-24 px-6">
+
+    <section class="relative min-h-screen flex items-center pt-24 px-6">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div class="z-10 text-center md:text-left">
                 <div class="inline-block bg-purple-500/20 text-purple-400 px-4 py-1 rounded-full text-[10px] font-bold mb-6 border border-purple-500/30 uppercase tracking-widest">The Fastest Clan on Solana</div>
                 <h1 class="text-6xl md:text-8xl font-meme leading-[0.9] mb-6">THE GREAT <br><span class="neon-green underline decoration-purple-500">HOP</span> IS HERE</h1>
                 <p class="text-xl text-gray-400 mb-10 tracking-widest uppercase leading-relaxed">Protect the burrow. Rule the chart. <br>Welcome to the <span class="text-white">Bunny Guardians</span> era.</p>
                 <div class="flex flex-col sm:flex-row gap-4 mb-12 justify-center md:justify-start">
-                    <a href="PASTE_YOUR_TELEGRAM_LINK_HERE" target="_blank" class="bunny-btn px-10 py-4 text-center shadow-lg uppercase">Telegram</a>
-                    <a href="PASTE_YOUR_TWITTER_LINK_HERE" target="_blank" class="border border-green-400 text-green-400 px-10 py-4 font-bold text-center rounded-full hover:bg-green-400/10 transition uppercase">Twitter / X</a>
+                    <a href="https://t.me/SolBunnyOfficial" target="_blank" class="bunny-btn px-10 py-4 text-center shadow-lg uppercase">Telegram</a>
+                    <a href="https://x.com/solbunny_official" target="_blank" class="border border-green-400 text-green-400 px-10 py-4 font-bold text-center rounded-full hover:bg-green-400/10 transition uppercase">Twitter / X</a>
                 </div>
                 <div class="glass-card p-4 rounded-2xl flex items-center justify-between border border-purple-500/30 overflow-hidden max-w-md mx-auto md:mx-0">
                     <div class="truncate mr-4 text-left">
                         <span class="text-[10px] text-purple-400 font-bold uppercase block mb-1 tracking-widest text-left">Guardian's Contract</span>
-                        <code class="text-xs md:text-sm text-gray-300">PASTE_YOUR_SMART_CONTRACT_HERE</code>
+                        <code id="caText" class="text-xs md:text-sm text-gray-300 italic">Wait for Launch...</code>
                     </div>
-                    <button class="text-green-400 font-bold hover:text-white uppercase text-xs" onclick="navigator.clipboard.writeText('PASTE_YOUR_SMART_CONTRACT_HERE'); alert('Copied!')">Copy</button>
+                    <button class="text-green-400 font-bold hover:text-white uppercase text-xs" onclick="copyCA()">Copy</button>
                 </div>
             </div>
             <div class="relative flex justify-center order-first md:order-last">
                 <div class="absolute inset-0 bg-green-500/10 rounded-full blur-[100px]"></div>
-                <img src="IMG_4646.png" alt="SolBunny Mascot" class="w-full max-w-[500px] animate-float drop-shadow-[0_0_60px_rgba(20,241,149,0.3)]">
+                <img src="IMG_4646.png" alt="SolBunny Mascot" class="w-full max-w-[400px] animate-float drop-shadow-[0_0_60px_rgba(20,241,149,0.3)]">
             </div>
         </div>
     </section>
 
     <section id="about" class="py-24 px-6 max-w-4xl mx-auto text-center border-t border-white/5">
         <h2 class="text-4xl font-meme mb-10 neon-purple uppercase">The Origin Story</h2>
-        <div class="glass-card p-10 rounded-[40px] lore-box">
+        <div class="glass-card p-10 rounded-[40px]">
             <p class="text-xl leading-relaxed text-gray-300 italic">"In the neon-soaked alleys of Solana City, where dogs bark and frogs sleep, one bunny saw the future. He didn't want a garden; he wanted the stars. Armed with cyber-gear and fueled by pure adrenaline, SolBunny is here to lead the <span class="text-green-400 font-bold">Great Hop</span>. We don't follow the pack. We outrun them."</p>
             <div class="mt-8 font-meme text-green-400 tracking-widest text-sm">— THE GUARDIAN'S MANIFESTO</div>
         </div>
     </section>
+
     <section id="tokenomics" class="py-12 md:py-20 text-center border-t border-white/5">
         <h2 class="font-meme text-center mb-8 md:mb-12 uppercase tracking-tighter neon-green">BUNNY-NOMICS</h2>
-        
         <div class="stats-grid">
-            
-            <div class="glass-card stat-card group hover:border-green-400/50 transition duration-300">
+            <div class="glass-card stat-card group hover:border-green-400/50 transition">
                 <span class="stat-label">Buy/Sell Tax</span>
                 <span class="stat-value text-white">0%</span>
             </div>
-            
-            <div class="glass-card stat-card group hover:border-purple-400/50 transition duration-300">
+            <div class="glass-card stat-card group hover:border-purple-400/50 transition">
                 <span class="stat-label">Liquidity</span>
-                <span class="stat-value text-white uppercase break-all">BURNED</span>
+                <span class="stat-value text-white uppercase">BURNED</span>
             </div>
-            
-            <div class="glass-card stat-card group hover:border-green-400/50 transition duration-300">
+            <div class="glass-card stat-card group hover:border-green-400/50 transition">
                 <span class="stat-label">Total Supply</span>
-                <span class="stat-value text-white leading-tight">1<br>BILLION</span>
+                <span class="stat-value text-white">1 BILLION</span>
             </div>
-            
-            <div class="glass-card stat-card group hover:border-purple-400/50 transition duration-300">
+            <div class="glass-card stat-card group hover:border-purple-400/50 transition">
                 <span class="stat-label">Ownership</span>
                 <span class="stat-value text-white uppercase break-all">RENOUNCED</span>
             </div>
-            
         </div>
     </section>
 
@@ -115,37 +115,23 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="glass-card p-8 rounded-3xl border-b-4 border-purple-600">
                 <div class="font-meme text-2xl mb-4 text-purple-400">01</div>
-                <h4 class="font-bold uppercase mb-2">Create Wallet</h4>
-                <p class="text-gray-400 text-sm">Download Phantom or Solflare from the app store.</p>
+                <h4 class="font-bold uppercase mb-2 text-sm">Create Wallet</h4>
+                <p class="text-gray-400 text-[10px] uppercase">Download Phantom or Solflare from the app store.</p>
             </div>
             <div class="glass-card p-8 rounded-3xl border-b-4 border-green-500">
                 <div class="font-meme text-2xl mb-4 text-green-500">02</div>
-                <h4 class="font-bold uppercase mb-2">Get SOL</h4>
-                <p class="text-gray-400 text-sm">Send SOL to your new wallet address from an exchange.</p>
+                <h4 class="font-bold uppercase mb-2 text-sm">Get SOL</h4>
+                <p class="text-gray-400 text-[10px] uppercase">Send SOL to your new wallet address from an exchange.</p>
             </div>
             <div class="glass-card p-8 rounded-3xl border-b-4 border-purple-600">
                 <div class="font-meme text-2xl mb-4 text-purple-400">03</div>
-                <h4 class="font-bold uppercase mb-2">Go to Jupiter</h4>
-                <p class="text-gray-400 text-sm">Visit Jupiter (jup.ag) and connect your wallet.</p>
+                <h4 class="font-bold uppercase mb-2 text-sm">Go to Pump.fun</h4>
+                <p class="text-gray-400 text-[10px] uppercase">Visit Pump.fun and search for $SOLBUNNY.</p>
             </div>
             <div class="glass-card p-8 rounded-3xl border-b-4 border-green-500">
                 <div class="font-meme text-2xl mb-4 text-green-500">04</div>
-                <h4 class="font-bold uppercase mb-2">Swap</h4>
-                <p class="text-gray-400 text-sm">Paste CA and swap your SOL for $SOLBUNNY.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="roadmap" class="py-24 px-6 max-w-5xl mx-auto border-t border-white/5">
-        <h2 class="text-5xl font-meme neon-green uppercase text-center mb-16">The Hop Plan</h2>
-        <div class="space-y-6">
-            <div class="glass-card p-8 rounded-[40px] border-l-8 border-green-400">
-                <h3 class="text-2xl font-meme mb-2">PHASE 1: BIRTH</h3>
-                <p class="text-white text-sm">Launch Website • 1,000 Holders • Twitter Raids • Stealth Launch</p>
-            </div>
-            <div class="glass-card p-8 rounded-[40px] border-l-8 border-purple-500 opacity-70">
-                <h3 class="text-2xl font-meme mb-2 text-purple-400">PHASE 2: INVASION</h3>
-                <p class="text-white text-sm">CG/CMC Listings • Influencer Marketing • 5,000+ Guardians</p>
+                <h4 class="font-bold uppercase mb-2 text-sm">Swap</h4>
+                <p class="text-gray-400 text-[10px] uppercase">Swap your SOL for $SOLBUNNY and HODL!</p>
             </div>
         </div>
     </section>
@@ -153,14 +139,24 @@
     <footer class="py-20 border-t border-white/5 text-center px-6">
         <div class="text-5xl font-meme neon-green mb-8 tracking-widest">SOLBUNNY</div>
         <div class="flex justify-center space-x-12 mb-10 text-xs font-bold text-gray-500 uppercase tracking-widest">
-            <a href="PASTE_YOUR_TWITTER_LINK_HERE" class="hover:text-purple-400">Twitter</a>
-            <a href="PASTE_YOUR_TELEGRAM_LINK_HERE" class="hover:text-green-400">Telegram</a>
+            <a href="https://x.com/solbunny_official" target="_blank" class="hover:text-purple-400">Twitter</a>
+            <a href="https://t.me/SolBunnyOfficial" target="_blank" class="hover:text-green-400">Telegram</a>
         </div>
         <p class="text-[10px] text-gray-700 uppercase tracking-[0.2em] max-w-2xl mx-auto leading-relaxed">
             $SOLBUNNY is a meme coin with no utility or financial return. Community driven. Always DYOR.
         </p>
     </footer>
+
+    <script>
+        function copyCA() {
+            const ca = document.getElementById('caText').innerText;
+            if(ca !== "Wait for Launch...") {
+                navigator.clipboard.writeText(ca);
+                alert('Contract Address Copied!');
+            } else {
+                alert('Contract will be available after launch!');
+            }
+        }
+    </script>
 </body>
 </html>
-    
-    
