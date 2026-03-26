@@ -1,146 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SolBunny - The Cutest Meme on Solana</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolBunny</title>
+  <style>
+    /* Reset dan font */
+    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    body { background-color: #f5f5f5; color: #333; }
 
-<style>
-body {
-margin: 0;
-font-family: 'Comic Sans MS', cursive;
-background: linear-gradient(135deg, #ffdee9, #b5fffc);
-text-align: center;
-color: #333;
-}
+    /* Header / Hero */
+    header {
+      background-color: #fff;
+      text-align: center;
+      padding: 60px 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    header img {
+      width: 150px;
+      animation: float 3s ease-in-out infinite;
+    }
+    header h1 {
+      margin-top: 20px;
+      font-size: 2.5em;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 1.2em;
+      color: #666;
+    }
 
-nav {
-display: flex;
-justify-content: space-between;
-padding: 20px 40px;
-background: #ff69b4;
-color: white;
-font-weight: bold;
-}
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
 
-nav a {
-color: white;
-text-decoration: none;
-margin-left: 20px;
-}
+    /* Section umum */
+    section {
+      padding: 60px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2em;
+    }
+    p {
+      line-height: 1.6;
+      text-align: center;
+    }
 
-.hero {
-padding: 80px 20px;
-}
+    /* Tokenomics */
+    .tokenomics {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .token-box {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 200px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
 
-.hero img {
-width: 250px;
-animation: bounce 2s infinite;
-}
+    /* Roadmap */
+    .roadmap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .roadmap-item {
+      background-color: #fff;
+      padding: 20px;
+      border-left: 4px solid #999;
+      border-radius: 5px;
+    }
 
-@keyframes bounce {
-0%, 100% { transform: translateY(0); }
-50% { transform: translateY(-20px); }
-}
+    /* Social Links */
+    .social {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .social a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    .social a:hover {
+      color: #999;
+    }
 
-h1 {
-font-size: 50px;
-color: #ff1493;
-}
-
-.subtitle {
-font-size: 20px;
-margin-top: 10px;
-}
-
-.button {
-display: inline-block;
-margin-top: 25px;
-padding: 15px 30px;
-background: #ff1493;
-color: white;
-border-radius: 30px;
-font-weight: bold;
-text-decoration: none;
-transition: 0.3s;
-}
-
-.button:hover {
-background: #ff69b4;
-transform: scale(1.1);
-}
-
-.section {
-padding: 60px 20px;
-}
-
-.card {
-background: white;
-padding: 30px;
-margin: 20px auto;
-border-radius: 20px;
-width: 80%;
-max-width: 600px;
-box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-footer {
-background: #ff69b4;
-padding: 20px;
-color: white;
-margin-top: 40px;
-}
-</style>
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: #fff;
+      margin-top: 60px;
+      box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
-
 <body>
 
-<nav>
-<div>🐰 SolBunny</div>
-<div>
-<a href="#about">About</a>
-<a href="#tokenomics">Tokenomics</a>
-<a href="#roadmap">Roadmap</a>
-</div>
-</nav>
+  <header>
+    <img src="https://via.placeholder.com/150" alt="SolBunny Logo">
+    <h1>SolBunny</h1>
+    <p>Anime-style meme coin with fun & future vibes</p>
+  </header>
 
-<div class="hero">
-<img src="44D039A5-5168-4040-B785-FF8C5A28AE70.png" alt="SolBunny Logo">
-<h1>$BUN</h1>
-<div class="subtitle">The Cutest Bunny on Solana 🚀</div>
-<a href="#" class="button">Buy $BUN</a>
-</div>
+  <section id="about">
+    <h2>Tentang SolBunny</h2>
+    <p>SolBunny adalah meme coin unik bertema kelinci anime. Komunitas-driven dan siap untuk petualangan crypto-mu!</p>
+  </section>
 
-<div class="section" id="about">
-<div class="card">
-<h2>About SolBunny</h2>
-<p>SolBunny is the cutest meme coin on Solana!  
-Fast, fluffy, and ready to hop to the moon 🌙  
-100% community powered.</p>
-</div>
-</div>
+  <section id="tokenomics">
+    <h2>Tokenomics</h2>
+    <div class="tokenomics">
+      <div class="token-box">
+        <h3>Total Supply</h3>
+        <p>1,000,000,000 SOLB</p>
+      </div>
+      <div class="token-box">
+        <h3>Burning</h3>
+        <p>5% setiap transaksi</p>
+      </div>
+      <div class="token-box">
+        <h3>Community</h3>
+        <p>50% reserved</p>
+      </div>
+    </div>
+  </section>
 
-<div class="section" id="tokenomics">
-<div class="card">
-<h2>Tokenomics</h2>
-<p>Total Supply: 1,000,000,000 $BUN</p>
-<p>Tax: 0%</p>
-<p>Liquidity: Locked 🔒</p>
-</div>
-</div>
+  <section id="roadmap">
+    <h2>Roadmap</h2>
+    <div class="roadmap">
+      <div class="roadmap-item"><strong>Q1:</strong> Launch website & social media</div>
+      <div class="roadmap-item"><strong>Q2:</strong> Listing di DEX & burn mechanism live</div>
+      <div class="roadmap-item"><strong>Q3:</strong> Partnerships & merchandise</div>
+    </div>
+  </section>
 
-<div class="section" id="roadmap">
-<div class="card">
-<h2>Roadmap</h2>
-<p>Phase 1 – Launch Bunny 🐰</p>
-<p>Phase 2 – Build Community 🎉</p>
-<p>Phase 3 – Meme Takeover 🚀</p>
-</div>
-</div>
+  <section id="social">
+    <h2>Ikuti Kami</h2>
+    <div class="social">
+      <a href="#">Telegram</a>
+      <a href="#">Twitter</a>
+      <a href="#">Discord</a>
+    </div>
+  </section>
 
-<footer>
-© 2026 SolBunny • Hop to the Moon 🚀
-</footer>
+  <footer>
+    &copy; 2026 SolBunny. All rights reserved.
+  </footer>
 
 </body>
 </html>
