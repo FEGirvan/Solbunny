@@ -1,164 +1,126 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SolBunny</title>
-  <style>
-    /* Reset dan font */
-    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-    body { background-color: #f5f5f5; color: #333; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolBunny - The Fastest Bunny on Solana</title>
 
-    /* Header / Hero */
-    header {
-      background-color: #fff;
-      text-align: center;
-      padding: 60px 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    header img {
-      width: 150px;
-      animation: float 3s ease-in-out infinite;
-    }
-    header h1 {
-      margin-top: 20px;
-      font-size: 2.5em;
-    }
-    header p {
-      margin-top: 10px;
-      font-size: 1.2em;
-      color: #666;
-    }
+<style>
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+color: white;
+text-align: center;
+}
 
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
+nav {
+display: flex;
+justify-content: space-between;
+padding: 20px 40px;
+background: #111;
+position: fixed;
+width: 100%;
+top: 0;
+}
 
-    /* Section umum */
-    section {
-      padding: 60px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 40px;
-      font-size: 2em;
-    }
-    p {
-      line-height: 1.6;
-      text-align: center;
-    }
+nav a {
+color: white;
+text-decoration: none;
+margin: 0 15px;
+font-weight: bold;
+}
 
-    /* Tokenomics */
-    .tokenomics {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    .token-box {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      width: 200px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      text-align: center;
-    }
+.hero {
+padding: 150px 20px 100px;
+}
 
-    /* Roadmap */
-    .roadmap {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .roadmap-item {
-      background-color: #fff;
-      padding: 20px;
-      border-left: 4px solid #999;
-      border-radius: 5px;
-    }
+.hero img {
+width: 200px;
+margin-bottom: 30px;
+}
 
-    /* Social Links */
-    .social {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 30px;
-    }
-    .social a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-    .social a:hover {
-      color: #999;
-    }
+h1 {
+font-size: 50px;
+margin: 0;
+}
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      background-color: #fff;
-      margin-top: 60px;
-      box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
-    }
-  </style>
+.highlight {
+color: #00ff99;
+}
+
+button {
+background: #00ff99;
+border: none;
+padding: 15px 30px;
+font-size: 18px;
+border-radius: 30px;
+cursor: pointer;
+margin-top: 20px;
+}
+
+section {
+padding: 80px 20px;
+}
+
+.tokenomics {
+background: #111;
+}
+
+footer {
+background: #000;
+padding: 30px;
+font-size: 14px;
+color: gray;
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <img src="https://via.placeholder.com/150" alt="SolBunny Logo">
-    <h1>SolBunny</h1>
-    <p>Anime-style meme coin with fun & future vibes</p>
-  </header>
+<nav>
+<div><b>🐰 SOLBUNNY</b></div>
+<div>
+<a href="#about">About</a>
+<a href="#tokenomics">Tokenomics</a>
+<a href="#roadmap">Roadmap</a>
+<a href="https://twitter.com/Solbunny" target="_blank">Twitter</a>
+</div>
+</nav>
 
-  <section id="about">
-    <h2>Tentang SolBunny</h2>
-    <p>SolBunny adalah meme coin unik bertema kelinci anime. Komunitas-driven dan siap untuk petualangan crypto-mu!</p>
-  </section>
+<div class="hero">
+<img src="44D039A5-5168-4040-B785-FF8C5A28AE70.png" alt="SolBunny Logo">
+<h1>The Fastest <span class="highlight">Bunny</span> on Solana</h1>
+<p>$BUN is hopping to the moon 🚀</p>
+<button>Buy $BUN</button>
+</div>
 
-  <section id="tokenomics">
-    <h2>Tokenomics</h2>
-    <div class="tokenomics">
-      <div class="token-box">
-        <h3>Total Supply</h3>
-        <p>1,000,000,000 SOLB</p>
-      </div>
-      <div class="token-box">
-        <h3>Burning</h3>
-        <p>5% setiap transaksi</p>
-      </div>
-      <div class="token-box">
-        <h3>Community</h3>
-        <p>50% reserved</p>
-      </div>
-    </div>
-  </section>
+<section id="about">
+<h2>About SolBunny</h2>
+<p>SolBunny is a community-driven meme coin built on the Solana blockchain.  
+Fast. Cute. Explosive.  
+No presale. No team allocation. 100% community.</p>
+</section>
 
-  <section id="roadmap">
-    <h2>Roadmap</h2>
-    <div class="roadmap">
-      <div class="roadmap-item"><strong>Q1:</strong> Launch website & social media</div>
-      <div class="roadmap-item"><strong>Q2:</strong> Listing di DEX & burn mechanism live</div>
-      <div class="roadmap-item"><strong>Q3:</strong> Partnerships & merchandise</div>
-    </div>
-  </section>
+<section id="tokenomics" class="tokenomics">
+<h2>Tokenomics</h2>
+<p>Total Supply: 1,000,000,000 $BUN</p>
+<p>Liquidity: Burned 🔥</p>
+<p>Tax: 0%</p>
+<p>Chain: Solana</p>
+</section>
 
-  <section id="social">
-    <h2>Ikuti Kami</h2>
-    <div class="social">
-      <a href="#">Telegram</a>
-      <a href="#">Twitter</a>
-      <a href="#">Discord</a>
-    </div>
-  </section>
+<section id="roadmap">
+<h2>Roadmap</h2>
+<p>Phase 1: Launch & Community Building</p>
+<p>Phase 2: CoinGecko & CMC Listing</p>
+<p>Phase 3: NFT Bunny Collection</p>
+<p>Phase 4: $BUN Takes Over Solana</p>
+</section>
 
-  <footer>
-    &copy; 2026 SolBunny. All rights reserved.
-  </footer>
+<footer>
+© 2026 SolBunny. All Rights Reserved.
+</footer>
 
 </body>
 </html>
