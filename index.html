@@ -1,112 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SolBunny ($BUN)</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
+<title>SolBunny - The Fastest Bunny on Solana</title>
+
 <style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: Arial, sans-serif;
+}
+
 body {
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: #0d0d0d;
-    color: white;
-    text-align: center;
+color: white;
+text-align: center;
+overflow-x: hidden;
+background: linear-gradient(-45deg, #0f0f0f, #001f1a, #002b24, #000000);
+background-size: 400% 400%;
+animation: gradientMove 12s ease infinite;
 }
+
+@keyframes gradientMove {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+nav {
+display: flex;
+justify-content: space-between;
+padding: 20px 40px;
+position: fixed;
+width: 100%;
+top: 0;
+background: rgba(0,0,0,0.6);
+backdrop-filter: blur(10px);
+z-index: 1000;
+}
+
+nav a {
+color: white;
+text-decoration: none;
+margin: 0 15px;
+font-weight: bold;
+transition: 0.3s;
+}
+
+nav a:hover {
+color: #00ff99;
+}
+
 .hero {
-    padding: 120px 20px;
-    background: linear-gradient(180deg, #111, #000);
+padding: 180px 20px 120px;
 }
+
+.hero img {
+width: 220px;
+margin-bottom: 30px;
+filter: drop-shadow(0 0 20px #00ff99);
+animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-15px); }
+100% { transform: translateY(0px); }
+}
+
 h1 {
-    font-size: 70px;
-    font-weight: 900;
-    margin-bottom: 10px;
+font-size: 55px;
+margin-bottom: 20px;
 }
+
 .highlight {
-    color: #00ffa3;
+color: #00ff99;
+text-shadow: 0 0 15px #00ff99;
 }
-.subtitle {
-    font-size: 22px;
-    margin-bottom: 40px;
-    opacity: 0.9;
+
+p {
+font-size: 18px;
+opacity: 0.9;
 }
-.button {
-    display: inline-block;
-    padding: 18px 40px;
-    margin: 15px;
-    background: #00ffa3;
-    color: black;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 50px;
-    transition: 0.3s;
+
+button {
+background: #00ff99;
+border: none;
+padding: 15px 35px;
+font-size: 18px;
+border-radius: 40px;
+cursor: pointer;
+margin-top: 30px;
+font-weight: bold;
+transition: 0.3s;
+box-shadow: 0 0 15px #00ff99;
 }
-.button:hover {
-    background: #00c37a;
+
+button:hover {
+transform: scale(1.1);
+box-shadow: 0 0 30px #00ff99;
 }
-.section {
-    padding: 100px 20px;
+
+section {
+padding: 100px 20px;
 }
+
 .card {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 25px;
-    background: #141414;
-    border-radius: 20px;
+background: rgba(255,255,255,0.05);
+padding: 40px;
+margin: 20px auto;
+border-radius: 20px;
+width: 80%;
+max-width: 600px;
+backdrop-filter: blur(10px);
 }
-h2 {
-    font-size: 36px;
-    margin-bottom: 40px;
-}
-.footer {
-    padding: 40px 20px;
-    font-size: 12px;
-    opacity: 0.6;
+
+footer {
+padding: 40px;
+background: rgba(0,0,0,0.7);
+font-size: 14px;
+opacity: 0.6;
 }
 </style>
 </head>
 
 <body>
 
+<nav>
+<div><b>🐰 SOLBUNNY</b></div>
+<div>
+<a href="#about">About</a>
+<a href="#tokenomics">Tokenomics</a>
+<a href="#roadmap">Roadmap</a>
+<a href="https://twitter.com/Solbunny" target="_blank">Twitter</a>
+</div>
+</nav>
+
 <div class="hero">
-    <h1>🐰 SOL<span class="highlight">BUNNY</span></h1>
-    <div class="subtitle">
-        The Meme Bunny Army of Solana 🚀
-    </div>
-    <a href="#" class="button">Buy $BUN (Soon)</a>
-    <a href="https://twitter.com/" class="button">Join the Bunny Army</a>
+<img src="44D039A5-5168-4040-B785-FF8C5A28AE70.png" alt="SolBunny Logo">
+<h1>The Fastest <span class="highlight">Bunny</span> on Solana</h1>
+<p>$BUN is hopping to the moon 🚀</p>
+<button>Buy $BUN</button>
 </div>
 
-<div class="section">
-    <h2>About $BUN</h2>
-    <div class="card">
-        Dogs had their season.<br>
-        Cats had their time.<br><br>
-        Now it’s Bunny Season. 🐰🔥<br><br>
-        $BUN is built on Solana for speed, memes, and pure community energy.
-    </div>
+<section id="about">
+<div class="card">
+<h2>About SolBunny</h2>
+<p>SolBunny is a community-driven meme coin built on Solana.  
+Fast transactions. Zero tax. Pure meme power.  
+The bunny is here to dominate the chain.</p>
 </div>
+</section>
 
-<div class="section">
-    <h2>Roadmap</h2>
-    <div class="card">Phase 1 – Army Formation 🐰</div>
-    <div class="card">Phase 2 – Token Launch 🚀</div>
-    <div class="card">Phase 3 – Meme Domination 🌕</div>
+<section id="tokenomics">
+<div class="card">
+<h2>Tokenomics</h2>
+<p>Total Supply: 1,000,000,000 $BUN</p>
+<p>Liquidity Burned 🔥</p>
+<p>Tax: 0%</p>
+<p>Chain: Solana</p>
 </div>
+</section>
 
-<div class="section">
-    <h2>Token Info</h2>
-    <div class="card">
-        Name: SolBunny<br>
-        Ticker: $BUN<br>
-        Network: Solana<br>
-        Contract: Coming Soon
-    </div>
+<section id="roadmap">
+<div class="card">
+<h2>Roadmap</h2>
+<p>Phase 1 – Launch & Build Community</p>
+<p>Phase 2 – Coin Listing</p>
+<p>Phase 3 – NFT Bunny Army</p>
+<p>Phase 4 – SolBunny Takes Over</p>
 </div>
+</section>
 
-<div class="footer">
-    © 2026 SolBunny. $BUN is a meme coin with no intrinsic value. For entertainment purposes only.
-</div>
+<footer>
+© 2026 SolBunny. All Rights Reserved.
+</footer>
 
 </body>
 </html>
