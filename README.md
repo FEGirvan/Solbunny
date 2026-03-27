@@ -1,2 +1,2 @@
-# Solbunny
-SolBunny ($BUN) – The fastest meme coin on Solana 🐰🚀
+# FEGsol
+FEGsol($FEG) – The fastest meme coin on Solana 🦍
