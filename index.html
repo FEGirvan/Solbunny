@@ -143,30 +143,6 @@ OPEN APP <i class="fas fa-external-link-alt ml-1 text-[8px]"></i>
 WE BUILD <br>
 <span class="gold-text">THE FUTURE</span>
 </h1>
-
-<div class="mb-10 w-full max-w-lg mx-auto">
-<p class="font-orbitron text-[10px] tracking-[0.4em] uppercase text-yellow-400 mb-4 text-center">Launching In:</p>
-<div class="grid grid-cols-4 gap-2 md:gap-4">
-<div class="glass-morphism p-3 md:p-4 border-b-2 border-yellow-500 text-center">
-<span id="days" class="block text-2xl md:text-4xl font-bold font-orbitron gold-text">00</span>
-<span class="text-[8px] md:text-[10px] uppercase tracking-widest text-gray-500">Days</span>
-</div>
-<div class="glass-morphism p-3 md:p-4 border-b-2 border-white/20 text-center">
-<span id="hours" class="block text-2xl md:text-4xl font-bold font-orbitron text-white">00</span>
-<span class="text-[8px] md:text-[10px] uppercase tracking-widest text-gray-400">Hours</span>
-</div>
-<div class="glass-morphism p-3 md:p-4 border-b-2 border-white/20 text-center">
-<span id="minutes" class="block text-2xl md:text-4xl font-bold font-orbitron text-white">00</span>
-<span class="text-[8px] md:text-[10px] uppercase tracking-widest text-gray-400">Mins</span>
-</div>
-<div class="glass-morphism p-3 md:p-4 border-b-2 border-white/20 text-center">
-<span id="seconds" class="block text-2xl md:text-4xl font-bold font-orbitron text-white animate-pulse">00</span>
-<span class="text-[8px] md:text-[10px] uppercase tracking-widest text-gray-400">Secs</span>
-</div>
-</div>
-<p class="mt-4 text-[9px] font-orbitron text-gray-600 tracking-widest uppercase">Official Launch: </p>
-</div>
-
 <p class="text-gray-400 max-w-md mx-auto text-sm md:text-lg mb-8 font-light">
 $BAPE is the ultimate architecture on Solana, built to <span class="text-yellow-400 font-bold">Fortify Every Gorilla</span>. Engineering excellence for the strongest tribe.
 </p>
@@ -434,25 +410,7 @@ if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
 const menuBtn = document.getElementById('mobile-menu-button');
 const menu = document.getElementById('mobile-menu');
 if(menuBtn){ menuBtn.addEventListener('click', (e) => { e.stopPropagation(); menu.classList.toggle('hidden'); }); }
-document.addEventListener('click', () => { if(menu && !menu.classList.contains('hidden')) { menu.classList.add('hidden'); } });
-
-/* =========================
-// LOGIC 1: COUNTDOWN
-// ========================= */
-const countdownDate = new Date("April 23, 2026 20:00:00").getTime();
-const timer = setInterval(function () {
-const now = new Date().getTime();
-const distance = countdownDate - now;
-
-if(document.getElementById("days")){
-document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2,'0');
-document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2,'0');
-document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2,'0');
-document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2,'0');
-}
-if(distance < 0){ clearInterval(timer); }
-},1000);
-
+document.addEventListener('click', () => { if(menu && !menu.classList.contains('hidden')) { menu.classList.add('
 /* =========================
 // LOGIC 1: SUPPLY COUNTER
 // ========================= */
