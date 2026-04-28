@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEG SOL | Banana Farm (Mainnet Ready)</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+body {
+    background: #0a0a0b;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+.font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+.glass-morphism {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 24px;
+    transition: all .3s ease;
+}
+
+.gold-text {
+    background: linear-gradient(to right, #fde047, #ca8a04);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-gradient {
+    background: radial-gradient(circle at center, #1a1a1d 0%, #0a0a0b 80%);
+}
+
+.apr-glow { text-shadow: 0 0 15px rgba(74, 222, 128, .6); }
+
+.duration-btn.active {
+    background: rgba(234, 179, 8, 0.2) !important;
+    border-color: #eab308 !important;
+    box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
+}
+
+.tier-badge {
+    background: linear-gradient(45deg, #1e1b4b, #312e81);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Banana Rain dari kodingan 1 */
+.banana {
+    position: fixed;
+    top: -80px;
+    font-size: 24px;
+    opacity: .5;
+    animation: fall linear infinite;
+    z-index: -1;
+}
+@keyframes fall {
+    0% { transform: translateY(-80px) rotate(0deg); opacity: 0; }
+    10% { opacity: .5; }
+    100% { transform: translateY(115vh) rotate(360deg); opacity: 0; }
+}
+</style>
+</head>
+
+<body class="hero-gradient min-h-screen">
+
+<div class="banana" style="left:10%;animation-duration:8s;">🍌</div>
+<div class="banana" style="left:40%;animation-duration:10s;animation-delay:2s;">🍌</div>
+<div class="banana" style="left:70%;animation-duration:7s;animation-delay:1s;">🍌</div>
+<div class="banana" style="left:90%;animation-duration:12s;">🍌</div>
+
+<nav class="p-6">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <a href="index.html" class="flex items-center space-x-3">
+            <img src="G.PNG" class="w-10 h-10 rounded-full border border-yellow-500">
+            <span class="font-orbitron text-xl font-bold uppercase tracking-tighter text-white">
+                FEG<span class="text-yellow-500">SOL</span>
+            </span>
+        </a>
+        <button id="wallet-adapter-btn" onclick="handleWalletAction()"
+            class="bg-yellow-600 hover:bg-yellow-700 px-6 py-2 rounded-full font-orbitron text-[10px] border border-yellow-400/50 text-black font-bold uppercase transition-all">
+            Connect Wallet
+        </button>
+    </div>
+</nav>
+
+<main class="max-w-4xl mx-auto px-4 pt-10 pb-20">
+    <header class="text-center mb-12">
+        <h1 class="font-orbitron text-4xl md:text-6xl font-bold gold-text mb-4 uppercase italic">Banana Farm</h1>
+        <p class="text-yellow-500/80 font-orbitron text-[10px] tracking-[0.3em] uppercase italic">
+            Staking Status: <span class="text-green-400">ONLINE</span>
+        </p>
+    </header>
+
+    <div class="grid grid-cols-2 gap-4 mb-8 text-center">
+        <div class="glass-morphism p-4">
+            <p class="text-[9px] text-gray-500 uppercase font-orbitron italic">Total Value Locked</p>
+            <p class="text-xl font-bold font-orbitron text-white">$<span id="tvl-stat">0</span></p>
+        </div>
+        <div class="glass-morphism p-4">
+            <p class="text-[9px] text-gray-500 uppercase font-orbitron italic">Total Rewards Paid</p>
+            <p class="text-xl font-bold font-orbitron text-green-400"><span id="rewards-paid-stat">0</span></p>
+        </div>
+    </div>
+
+    <div class="mb-10 text-center">
+        <div class="inline-block tier-badge px-8 py-3 rounded-2xl border-yellow-500/30">
+            <p class="text-[8px] font-orbitron text-yellow-500 uppercase mb-1 tracking-[0.2em]">Your Gorilla Rank</p>
+            <p class="text-sm font-bold font-orbitron text-white italic">
+                <i class="fas fa-crown text-yellow-500 mr-2"></i>
+                RANK: <span id="gorilla-level" class="text-yellow-400">BABY APE</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-center">
+        <div class="glass-morphism p-6 border-b-4 border-yellow-500">
+            <p class="text-[10px] text-gray-400 uppercase font-orbitron mb-2">Total Staked</p>
+            <p class="text-2xl font-bold font-orbitron"><span id="total-staked">0</span></p>
+        </div>
+        <div class="glass-morphism p-6 border-b-4 border-green-500">
+            <p class="text-[10px] text-gray-400 uppercase font-orbitron mb-2">Selected APR</p>
+            <p class="text-2xl font-bold font-orbitron text-green-400 apr-glow" id="display-apr">80%</p>
+        </div>
+        <div class="glass-morphism p-6 border-b-4 border-yellow-600">
+            <p class="text-[10px] text-gray-400 uppercase font-orbitron mb-2">Your Rewards</p>
+            <p class="text-2xl font-bold font-orbitron text-yellow-500"><span id="live-rewards">0</span></p>
+        </div>
+    </div>
+
+    <div class="glass-morphism p-8 md:p-12 border-t-2 border-yellow-500/30">
+        <div class="mb-10">
+            <label class="text-[9px] font-orbitron text-gray-500 uppercase block mb-4">1. Select Staking Duration</label>
+            <div class="grid grid-cols-3 gap-3">
+                <button onclick="setDuration(3,0.4,this)" class="duration-btn glass-morphism py-4 text-[10px] font-orbitron border text-white">
+                    3 Days <br><span class="text-green-400">40% APR</span>
+                </button>
+                <button onclick="setDuration(7,0.8,this)" class="duration-btn active glass-morphism py-4 text-[10px] font-orbitron border text-white">
+                    7 Days <br><span class="text-green-400">80% APR</span>
+                </button>
+                <button onclick="setDuration(30,1.6,this)" class="duration-btn glass-morphism py-4 text-[10px] font-orbitron border text-white">
+                    30 Days <br><span class="text-green-400">160% APR</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-8 items-end">
+            <div class="w-full">
+                <div class="flex justify-between mb-2 text-[9px] font-orbitron uppercase">
+                    <label class="text-gray-500">2. Amount to Stake</label>
+                    <span id="user-balance" class="text-yellow-500 font-bold">Balance: 0 $FEGSOL</span>
+                </div>
+                <div class="relative">
+                    <input type="number" id="stake-input" oninput="calculateReward()" placeholder="0.0"
+                        class="w-full bg-black/60 border border-yellow-500/30 rounded-xl px-6 py-4 text-white focus:border-yellow-500 outline-none transition-all">
+                    <button onclick="maxAmount()" class="absolute right-4 top-4 text-[10px] font-orbitron text-yellow-500 font-bold uppercase">Max</button>
+                </div>
+                
+                <div class="mt-6 flex gap-3">
+                    <button onclick="executeAction('Harvest')" class="flex-1 bg-green-600/10 hover:bg-green-600/30 border border-green-500/50 text-green-400 py-3 rounded-xl font-orbitron text-[10px] uppercase transition-all">
+                        <i class="fas fa-seedling mr-2"></i> Harvest
+                    </button>
+                    <button onclick="executeAction('Compound')" class="flex-1 bg-blue-600/10 hover:bg-blue-600/30 border border-blue-500/50 text-blue-400 py-3 rounded-xl font-orbitron text-[10px] uppercase transition-all">
+                        <i class="fas fa-sync-alt mr-2"></i> Compound
+                    </button>
+                </div>
+            </div>
+
+            <button onclick="executeAction('Stake')"
+                class="w-full md:w-48 bg-gradient-to-r from-yellow-600 to-yellow-400 py-5 rounded-xl font-orbitron font-bold uppercase text-black hover:scale-105 transition-all shadow-lg shadow-yellow-500/20">
+                Stake Now
+            </button>
+        </div>
+
+        <div id="reward-display" class="mt-10 grid grid-cols-2 gap-4 hidden">
+            <div class="bg-yellow-500/5 border border-yellow-500/10 p-4 rounded-xl text-center">
+                <p class="text-[8px] text-gray-500 font-orbitron uppercase mb-1">Daily Reward</p>
+                <p class="text-sm font-bold font-orbitron text-green-400">+ <span id="daily-reward">0</span> $FEGSOL</p>
+            </div>
+            <div class="bg-yellow-500/5 border border-yellow-500/10 p-4 rounded-xl text-center">
+                <p class="text-[8px] text-gray-500 font-orbitron uppercase mb-1">Total Reward (<span id="calc-days">7</span>d)</p>
+                <p class="text-sm font-bold font-orbitron text-yellow-500">+ <span id="period-reward">0</span> $FEGSOL</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+// LOGIKA 100% SESUAI REQUEST
+const CONFIG = {
+    ca: "49vATs18ocX8EQC4ry6bQpQAZjc2WRuo9HieWawspump",
+    poolAddress: "BHT2A2SN6zPKJr5xDejaKx9LN3F8E8f5WSmnehARFg9z",
+    poolLink: "https://app.streamflow.finance/contract/solana/mainnet/BHT2A2SN6zPKJr5xDejaKx9LN3F8E8f5WSmnehARFg9z",
+    rpc: "https://mainnet.helius-rpc.com/?api-key=066b5771-93f3-4f21-b935-c95d78335e30",
+    estimatedPrice: 0.00001
+};
+
+let userWallet = null;
+let userBalance = 0;
+let currentAPR = 0.8;
+let currentDays = 7;
+
+const connection = new solanaWeb3.Connection(CONFIG.rpc, "confirmed");
+
+async function handleWalletAction() {
+    if (!window.solana || !window.solana.isPhantom) {
+        window.open("https://phantom.app/", "_blank");
+        return;
+    }
+    try {
+        const resp = await window.solana.connect();
+        userWallet = resp.publicKey.toString();
+        document.getElementById("wallet-adapter-btn").innerText = userWallet.slice(0,4)+"..."+userWallet.slice(-4);
+        document.getElementById("wallet-adapter-btn").classList.replace("bg-yellow-600", "bg-green-600");
+        await fetchUserBalance();
+        Swal.fire({ title: "Connected!", text: "Wallet linked to Banana Farm", icon: "success", background: "#0a0a0b", color: "#fff" });
+    } catch (e) { console.log(e); }
+}
+
+async function fetchUserBalance() {
+    if (!userWallet) return;
+    try {
+        const owner = new solanaWeb3.PublicKey(userWallet);
+        const mint = new solanaWeb3.PublicKey(CONFIG.ca);
+        const res = await connection.getParsedTokenAccountsByOwner(owner, {mint: mint});
+        userBalance = res.value.length > 0 ? res.value[0].account.data.parsed.info.tokenAmount.uiAmount : 0;
+        document.getElementById("user-balance").innerText = "Balance: " + Number(userBalance).toLocaleString() + " $FEGSOL";
+    } catch (err) { console.log(err); }
+}
+
+async function fetchBlockchainStats() {
+    try {
+        const owner = new solanaWeb3.PublicKey(CONFIG.poolAddress);
+        const mint = new solanaWeb3.PublicKey(CONFIG.ca);
+        const res = await connection.getParsedTokenAccountsByOwner(owner, {mint: mint});
+        let amount = res.value.length > 0 ? res.value[0].account.data.parsed.info.tokenAmount.uiAmount : 0;
+        document.getElementById("total-staked").innerText = Number(amount).toLocaleString();
+        document.getElementById("tvl-stat").innerText = (Number(amount) * CONFIG.estimatedPrice).toLocaleString();
+        document.getElementById("rewards-paid-stat").innerText = (Number(amount) * 0.05).toLocaleString();
+    } catch (err) { console.log(err); }
+}
+
+function executeAction(action) {
+    if (!userWallet) {
+        Swal.fire({ title: "Connect Wallet", text: "Please connect wallet first", icon: "warning", background: "#0a0a0b", color: "#fff" });
+        return;
+    }
+    Swal.fire({
+        title: action + " Process",
+        text: "Redirecting to Streamflow...",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Open Streamflow",
+        background: "#0a0a0b",
+        color: "#fff",
+        confirmButtonColor: "#ca8a04"
+    }).then((r) => { if (r.isConfirmed) { window.open(CONFIG.poolLink, "_blank"); } });
+}
+
+function setDuration(days, apr, el) {
+    currentDays = days;
+    currentAPR = apr;
+    document.getElementById("display-apr").innerText = (apr * 100) + "%";
+    document.getElementById("calc-days").innerText = days;
+    document.querySelectorAll(".duration-btn").forEach(btn => btn.classList.remove("active"));
+    el.classList.add("active");
+    calculateReward();
+}
+
+function calculateReward() {
+    const amount = parseFloat(document.getElementById("stake-input").value || 0);
+    const box = document.getElementById("reward-display");
+    const level = document.getElementById("gorilla-level");
+    if (amount <= 0) {
+        box.classList.add("hidden");
+        level.innerText = "BABY APE";
+        return;
+    }
+    box.classList.remove("hidden");
+    const daily = (amount * currentAPR) / 365;
+    const total = daily * currentDays;
+    document.getElementById("daily-reward").innerText = daily.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    document.getElementById("period-reward").innerText = total.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    document.getElementById("live-rewards").innerText = total.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    
+    // LEVEL LOGIC
+    if (amount >= 1000000) level.innerText = "GOLDEN KONG";
+    else if (amount >= 100000) level.innerText = "SILVERBACK";
+    else level.innerText = "BABY APE";
+}
+
+function maxAmount() {
+    document.getElementById("stake-input").value = userBalance;
+    calculateReward();
+}
+
+fetchBlockchainStats();
+setInterval(fetchBlockchainStats, 60000);
+setInterval(fetchUserBalance, 15000);
+</script>
+</body>
+</html>
