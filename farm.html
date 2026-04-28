@@ -82,7 +82,7 @@ body {
         <a href="index.html" class="flex items-center space-x-3">
             <img src="G.PNG" class="w-10 h-10 rounded-full border border-yellow-500">
             <span class="font-orbitron text-xl font-bold uppercase tracking-tighter text-white">
-                FEG<span class="text-yellow-500">SOL</span>
+                BAPE<span class="text-yellow-500"></span>
             </span>
         </a>
         <button id="wallet-adapter-btn" onclick="handleWalletAction()"
@@ -232,7 +232,7 @@ async function fetchUserBalance() {
         const mint = new solanaWeb3.PublicKey(CONFIG.ca);
         const res = await connection.getParsedTokenAccountsByOwner(owner, {mint: mint});
         userBalance = res.value.length > 0 ? res.value[0].account.data.parsed.info.tokenAmount.uiAmount : 0;
-        document.getElementById("user-balance").innerText = "Balance: " + Number(userBalance).toLocaleString() + " $FEGSOL";
+        document.getElementById("user-balance").innerText = "Balance: " + Number(userBalance).toLocaleString() + " $BAPE";
     } catch (err) { console.log(err); }
 }
 
