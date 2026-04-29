@@ -501,40 +501,40 @@ theme: { palette: { primary: "#ffe600", background: "#0a0a0b" } },
 branding: { name: "BAPE Premium Swap" }
 });
 }
-/* =========================
-// LOGIC: RAINING BANANAS (ULTIMATE SLOW)
-// ========================= */
+/* ==========================================
+// LOGIC: BANANA RAIN (ULTRA SLOW MOTION)
+// ========================================== */
 function createBanana() {
     const banana = document.createElement('div');
     banana.classList.add('banana');
     banana.innerText = '🍌';
     
-    // Posisi horizontal acak
+    // Posisi horizontal acak (0-100% lebar layar)
     banana.style.left = Math.random() * 100 + 'vw';
     
-    // DURASI SUPER SLOW: 25 sampai 40 detik untuk sampai ke bawah
-    const duration = Math.random() * 15 + 25; 
+    // DURASI SUPER SLOW: Dibuat antara 30 sampai 50 detik
+    // Ini yang bikin dia jatuhnya sangat pelan, satu-satu.
+    const duration = Math.random() * 20 + 30; 
     banana.style.animationDuration = duration + 's';
     
-    // Delay acak agar tidak kaku
+    // Delay acak biar munculnya tidak barengan
     const delay = Math.random() * 10;
     banana.style.animationDelay = delay + 's';
     
-    // Ukuran variatif (20px - 35px)
-    banana.style.fontSize = Math.random() * 15 + 20 + 'px';
+    // Ukuran variatif biar ada efek kedalaman (depth)
+    banana.style.fontSize = Math.random() * 12 + 18 + 'px';
     
     document.body.appendChild(banana);
 
-    // Hapus elemen setelah selesai (durasi + delay) agar memory aman
+    // Hapus elemen setelah selesai agar RAM user tetap aman
     setTimeout(() => {
         banana.remove();
     }, (duration + delay) * 1000);
 }
 
-// Munculkan pisang baru setiap 3 detik (3000ms)
-// Karena jatuhnya sangat lama, 3 detik adalah angka yang pas agar layar tidak penuh
-setInterval(createBanana, 3000);
-
+// KUNCI UTAMA: Interval kemunculan dibuat lama (setiap 4 detik)
+// Supaya tidak menumpuk, jadi pisangnya turun dengan anggun.
+setInterval(createBanana, 4000);
 
 
 </script>
