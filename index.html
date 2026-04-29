@@ -479,7 +479,7 @@ branding: { name: "BAPE Premium Swap" }
 });
 }
 /* =========================
-// LOGIC: RAINING BANANAS (SLOW MODE)
+// LOGIC: RAINING BANANAS (ULTRA SLOW MODE)
 // ========================= */
 function createBanana() {
     const banana = document.createElement('div');
@@ -487,12 +487,12 @@ function createBanana() {
     banana.innerText = '🍌';
     banana.style.left = Math.random() * 100 + 'vw';
     
-    // DIBUAT LEBIH SELOW: Antara 7 sampai 12 detik
-    const duration = Math.random() * 5 + 7; 
+    // DURASI 2X LIPAT LEBIH LAMBAT: Antara 15 sampai 24 detik
+    const duration = Math.random() * 9 + 15; 
     banana.style.animationDuration = duration + 's';
     
-    // Jeda muncul acak agar tidak barengan jatuhnya
-    const delay = Math.random() * 3;
+    // Delay acak agar jatuhnya tidak berbarengan
+    const delay = Math.random() * 5;
     banana.style.animationDelay = delay + 's';
     
     banana.style.fontSize = Math.random() * 10 + 20 + 'px';
@@ -505,9 +505,10 @@ function createBanana() {
     }, (duration + delay) * 1000);
 }
 
-// Jarak muncul antar pisang juga dibuat lebih lama (setiap 800ms)
-// supaya tidak terlalu penuh di layar
-setInterval(createBanana, 800);
+// Jeda kemunculan diperlama menjadi 1.5 detik (1500ms) 
+// supaya layar tetap bersih dan estetik
+setInterval(createBanana, 1500);
+
 
 </script>
 </body>
