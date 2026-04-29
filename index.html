@@ -74,11 +74,34 @@ transition: all 0.4s ease;
 filter: grayscale(0%) opacity(1);
 transform: scale(1.1);
 }
+/* Banana Rain Style - Super Slow */
+.banana {
+    position: fixed;
+    top: -100px;
+    font-size: 24px;
+    opacity: 0.4;
+    animation: fall linear infinite;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(0.5px); /* Sedikit blur agar lebih menyatu dengan background */
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(115vh) rotate(360deg);
+    }
+}
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #0a0a0b; }
 ::-webkit-scrollbar-thumb { background: #ffe600; border-radius: 10px; }
+
+
+    
 </style>
 </head>
 <body>
@@ -479,35 +502,39 @@ branding: { name: "BAPE Premium Swap" }
 });
 }
 /* =========================
-// LOGIC: RAINING BANANAS (ULTRA SLOW MODE)
+// LOGIC: RAINING BANANAS (ULTIMATE SLOW)
 // ========================= */
 function createBanana() {
     const banana = document.createElement('div');
     banana.classList.add('banana');
     banana.innerText = '🍌';
+    
+    // Posisi horizontal acak
     banana.style.left = Math.random() * 100 + 'vw';
     
-    // DURASI 2X LIPAT LEBIH LAMBAT: Antara 15 sampai 24 detik
-    const duration = Math.random() * 9 + 15; 
+    // DURASI SUPER SLOW: 25 sampai 40 detik untuk sampai ke bawah
+    const duration = Math.random() * 15 + 25; 
     banana.style.animationDuration = duration + 's';
     
-    // Delay acak agar jatuhnya tidak berbarengan
-    const delay = Math.random() * 5;
+    // Delay acak agar tidak kaku
+    const delay = Math.random() * 10;
     banana.style.animationDelay = delay + 's';
     
-    banana.style.fontSize = Math.random() * 10 + 20 + 'px';
+    // Ukuran variatif (20px - 35px)
+    banana.style.fontSize = Math.random() * 15 + 20 + 'px';
     
     document.body.appendChild(banana);
 
-    // Hapus elemen setelah selesai animasi (durasi + delay)
+    // Hapus elemen setelah selesai (durasi + delay) agar memory aman
     setTimeout(() => {
         banana.remove();
     }, (duration + delay) * 1000);
 }
 
-// Jeda kemunculan diperlama menjadi 1.5 detik (1500ms) 
-// supaya layar tetap bersih dan estetik
-setInterval(createBanana, 1500);
+// Munculkan pisang baru setiap 3 detik (3000ms)
+// Karena jatuhnya sangat lama, 3 detik adalah angka yang pas agar layar tidak penuh
+setInterval(createBanana, 3000);
+
 
 
 </script>
