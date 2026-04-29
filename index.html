@@ -517,7 +517,7 @@ function createBanana() {
     banana.style.left = Math.random() * 100 + 'vw';
     
     // DURASI SUPER LAMBAT: 40 sampai 60 detik per satu pisang
-    const duration = Math.random() * 20 + 40; 
+    const duration = Math.random() * 80 + 100; 
     banana.style.animationDuration = duration + 's';
     
     // Delay acak agar masuknya tidak kaku
@@ -532,12 +532,12 @@ function createBanana() {
     // Bersihkan elemen setelah selesai agar tidak menumpuk di DOM
     setTimeout(() => {
         banana.remove();
-    }, (duration + delay) * 1000);
+    }, (duration + delay) * 1500);
 }
 
 // INTERVAL LAMA: Hanya muncul setiap 6 detik
 // Ini kuncinya agar pisang tidak terlihat "banyak" (seperti di farm)
-setInterval(createBanana, 6000);
+setInterval(createBanana, 8000);
 
 
 
