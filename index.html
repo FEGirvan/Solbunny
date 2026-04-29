@@ -74,17 +74,29 @@ transition: all 0.4s ease;
 filter: grayscale(0%) opacity(1);
 transform: scale(1.1);
 }
-/* Banana Rain Style - Super Slow */
+
+    
+/* Banana Rain Style - Minimalist & Ultra Slow */
 .banana {
     position: fixed;
     top: -100px;
     font-size: 24px;
-    opacity: 0.4;
+    opacity: 0.3; /* Lebih transparan agar tidak mengganggu */
     animation: fall linear infinite;
     z-index: -1;
     pointer-events: none;
-    filter: blur(0.5px); /* Sedikit blur agar lebih menyatu dengan background */
+    filter: blur(0.5px);
 }
+
+
+    
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(115vh) rotate(360deg); opacity: 0; }
+}
+
 
 @keyframes fall {
     0% {
@@ -502,39 +514,39 @@ branding: { name: "BAPE Premium Swap" }
 });
 }
 /* ==========================================
-// LOGIC: BANANA RAIN (ULTRA SLOW MOTION)
+// LOGIC: BANANA RAIN (MINIMALIST & ULTRA SLOW)
 // ========================================== */
 function createBanana() {
     const banana = document.createElement('div');
     banana.classList.add('banana');
     banana.innerText = '🍌';
     
-    // Posisi horizontal acak (0-100% lebar layar)
+    // Posisi acak di layar
     banana.style.left = Math.random() * 100 + 'vw';
     
-    // DURASI SUPER SLOW: Dibuat antara 30 sampai 50 detik
-    // Ini yang bikin dia jatuhnya sangat pelan, satu-satu.
-    const duration = Math.random() * 20 + 30; 
+    // DURASI SUPER LAMBAT: 40 sampai 60 detik per satu pisang
+    const duration = Math.random() * 20 + 40; 
     banana.style.animationDuration = duration + 's';
     
-    // Delay acak biar munculnya tidak barengan
-    const delay = Math.random() * 10;
+    // Delay acak agar masuknya tidak kaku
+    const delay = Math.random() * 5;
     banana.style.animationDelay = delay + 's';
     
-    // Ukuran variatif biar ada efek kedalaman (depth)
-    banana.style.fontSize = Math.random() * 12 + 18 + 'px';
+    // Ukuran kecil-sedikit besar (20px - 32px)
+    banana.style.fontSize = Math.random() * 12 + 20 + 'px';
     
     document.body.appendChild(banana);
 
-    // Hapus elemen setelah selesai agar RAM user tetap aman
+    // Bersihkan elemen setelah selesai agar tidak menumpuk di DOM
     setTimeout(() => {
         banana.remove();
     }, (duration + delay) * 1000);
 }
 
-// KUNCI UTAMA: Interval kemunculan dibuat lama (setiap 4 detik)
-// Supaya tidak menumpuk, jadi pisangnya turun dengan anggun.
-setInterval(createBanana, 4000);
+// INTERVAL LAMA: Hanya muncul setiap 6 detik
+// Ini kuncinya agar pisang tidak terlihat "banyak" (seperti di farm)
+setInterval(createBanana, 6000);
+
 
 
 </script>
