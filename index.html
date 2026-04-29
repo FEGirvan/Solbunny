@@ -478,6 +478,34 @@ theme: { palette: { primary: "#ffe600", background: "#0a0a0b" } },
 branding: { name: "BAPE Premium Swap" }
 });
 }
+/* =========================
+// LOGIC: RAINING BANANAS
+// ========================= */
+function createBanana() {
+    const banana = document.createElement('div');
+    banana.classList.add('banana');
+    banana.innerText = '🍌';
+    banana.style.left = Math.random() * 100 + 'vw';
+    
+    // Kecepatan jatuh (antara 3 sampai 6 detik)
+    const duration = Math.random() * 3 + 3;
+    banana.style.animationDuration = duration + 's';
+    
+    // Ukuran acak sedikit biar variatif
+    banana.style.fontSize = Math.random() * 10 + 20 + 'px';
+    
+    document.body.appendChild(banana);
+
+    // Hapus elemen setelah selesai animasi agar web tidak berat
+    setTimeout(() => {
+        banana.remove();
+    }, duration * 1000);
+}
+
+// Munculkan pisang baru setiap 400 milidetik
+setInterval(createBanana, 400);
+
+    
 </script>
 </body>
 </html>
