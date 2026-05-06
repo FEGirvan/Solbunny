@@ -7,57 +7,38 @@
 <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 
 <style>
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  background: radial-gradient(circle at top,#0f172a,#020617);
+  color:white;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color: white;
-}
-
-/* CONTAINER /
-.container {
-  max-width: 500px;
-  margin: auto;
-  padding: 20px;
+/ CONTAINER /
+.container{
+  max-width:500px;
+  margin:auto;
+  padding:20px;
 }
 
 / HERO /
-.hero {
-  text-align:center;
-  margin-bottom:30px;
-}
-
-.logo {
-  width:70px;
-  margin-bottom:10px;
-}
-
-h1 {
-  font-size:28px;
-  margin-bottom:5px;
-}
-
-.sub {
-  color:#94a3b8;
-  font-size:14px;
-}
+.hero{text-align:center;margin-bottom:25px;}
+.logo{width:70px;margin-bottom:10px;}
+h1{font-size:26px;}
+.sub{color:#94a3b8;font-size:14px;}
 
 / CARD /
-.card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(15px);
+.card{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(15px);
   border-radius:14px;
   padding:15px;
   margin-bottom:15px;
 }
 
 / INPUT /
-textarea, input {
+textarea,input{
   width:100%;
   padding:12px;
   border-radius:10px;
@@ -65,33 +46,30 @@ textarea, input {
   margin-top:10px;
   background:#020617;
   color:white;
-  font-size:14px;
 }
 
 / BUTTON /
-button {
+button{
   width:100%;
   padding:12px;
   margin-top:10px;
   border:none;
   border-radius:10px;
-  background: linear-gradient(90deg,#00ffa3,#00c3ff);
+  background:linear-gradient(90deg,#00ffa3,#00c3ff);
   color:black;
   font-weight:bold;
-  font-size:14px;
 }
 
-/ FEED /
-.feed-item {
+/ FEED */
+.feed-item{
   padding:10px;
   border-bottom:1px solid rgba(255,255,255,0.05);
   font-size:13px;
 }
 
-/ COLORS */
-.whale {color:#00ffa3;}
-.pump {color:#00c3ff;}
-.danger {color:#ff3b3b;}
+.whale{color:#00ffa3;}
+.pump{color:#00c3ff;}
+.danger{color:#ff3b3b;}
 
 </style>
 </head>
@@ -106,11 +84,13 @@ button {
   <p class="sub">Track whales • Detect signals • Trade instantly</p>
 </div>
 
+<!-- WALLET -->
 <div class="card">
   <button onclick="connect()">Connect Wallet</button>
   <p id="addr"></p>
 </div>
 
+<!-- FEED -->
 <div class="card">
   <h3>👻 Ghost Feed</h3>
   <textarea id="wallets" placeholder="wallet1,wallet2"></textarea>
@@ -118,44 +98,106 @@ button {
   <div id="feed"></div>
 </div>
 
+<!-- SWAP -->
 <div class="card">
   <h3>💱 Swap</h3>
   <input id="amount" placeholder="Amount SOL (0.01)">
   <input id="slippage" placeholder="Slippage % (1)">
   <button onclick="preview()">Preview</button>
   <div id="preview"></div>
-  <button onclick="execute()">Execute</button>
+  <button onclick="execute()">Execute Swap</button>
 </div>
 
 </div>
 
 <script>
-const API="https://YOUR-BACKEND-URL" // ⚠️ GANTI kalau deploy
 
-let provider,wallet,route
+// 🔥 BACKEND KAMU (SUDAH LIVE)
+const API = "https://36738a46-2101-429d-85a9-11cb89aced46-00-3o91ocjvheqfp.sisko.replit.dev"
 
+let provider, wallet, route
+
+// CONNECT WALLET
 async function connect(){
-  provider=window.solana
+  provider = window.solana
   if(!provider) return alert("Install Phantom")
-  const r=await provider.connect()
-  wallet=r.publicKey.toString()
-  addr.innerText=wallet.slice(0,6)+"..."+wallet.slice(-4)
+
+  const res = await provider.connect()
+  wallet = res.publicKey.toString()
+
+  document.getElementById("addr").innerText =
+    wallet.slice(0,6) + "..." + wallet.slice(-4)
 }
 
+// START FEED
 async function start(){
-  const wallets=document.getElementById("wallets").value.split(",")
+  const wallets = document.getElementById("wallets").value.split(",")
 
   setInterval(async ()=>{
-    const res=await fetch(API+"/feed",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({wallets})
-    })
-    const data=await res.json()
+    try{
+      const res = await fetch(API + "/feed", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({wallets})
+      })
 
-    feed.innerHTML=data.map(d=>      <div class="feed-item ${d.level}">         ${d.message}       </div>    ).join("")
+      const data = await res.json()
+
+      document.getElementById("feed").innerHTML =
+        data.map(d=>          <div class="feed-item ${d.level}">             ${d.message}           </div>        ).join("")
+    }catch{
+      document.getElementById("feed").innerHTML = "Error loading..."
+    }
   },5000)
 }
+
+// PREVIEW SWAP
+async function preview(){
+  const amt = Number(document.getElementById("amount").value)*1e9
+  const slip = Number(document.getElementById("slippage").value || 1)
+
+  const res = await fetch(
+    https://quote-api.jup.ag/v6/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&amount=${amt}&slippageBps=${slip*100}
+  )
+
+  const data = await res.json()
+  route = data.data[0]
+
+  document.getElementById("preview").innerText =
+    "Est receive: " + (route.outAmount/1e6).toFixed(2) + " USDC"
+}
+
+// EXECUTE SWAP
+async function execute(){
+  if(!provider) return alert("Connect wallet dulu")
+  if(!route) return alert("Preview dulu")
+
+  if(!confirm("Confirm swap?")) return
+
+  const swap = await fetch("https://quote-api.jup.ag/v6/swap",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      route,
+      userPublicKey: wallet,
+      wrapAndUnwrapSol: true
+    })
+  }).then(r=>r.json())
+
+  const tx = swap.swapTransaction
+
+  const conn = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com")
+
+  const transaction = solanaWeb3.Transaction.from(
+    Uint8Array.from(atob(tx),c=>c.charCodeAt(0))
+  )
+
+  const signed = await provider.signTransaction(transaction)
+  const sig = await conn.sendRawTransaction(signed.serialize())
+
+  alert("SUCCESS: " + sig)
+}
+
 </script>
 
 </body>
