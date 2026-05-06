@@ -1,116 +1,119 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ghost Signal 👻</title>
+app.post("/feed", async (req, res) => {
+  try {
+    const wallets = req.body.wallets?.slice(0,5) || []
+    let allTx = []
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://terminal.jup.ag/main-v4.js"></script>
+    for (const w of wallets) {
+      const url = `https://api.helius.xyz/v0/addresses/${w}/transactions?api-key=${HELIUS_KEY}`
+      const data = await fetch(url).then(r=>r.json())
 
-<style>
-body{background:#020617;color:white;font-family:sans-serif;}
-.glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.1);border-radius:16px;}
-.btn{background:linear-gradient(90deg,#00ffa3,#00c3ff);color:black;font-weight:bold;}
-.feed{padding:10px;border-radius:10px;margin-bottom:8px;background:rgba(255,255,255,0.05);}
-</style>
-</head>
+      data.slice(0,15).forEach(tx=>{
+        const amt = tx.nativeTransfers?.[0]?.amount
+          ? tx.nativeTransfers[0].amount / 1e9
+          : 0
 
-<body class="p-4 max-w-md mx-auto">
+        if(amt < 2) return // filter noise
 
-<!-- HEADER -->
-<div class="flex items-center gap-3 mb-6">
-  <img src="G.PNG" class="w-10 h-10 rounded-xl">
-  <h1 class="font-bold text-lg">Ghost Signal 👻</h1>
-</div>
+        allTx.push({
+          wallet: w,
+          amt,
+          time: tx.timestamp
+        })
+      })
+    }
 
-<!-- INPUT -->
-<div class="glass p-4 mb-4">
-  <textarea id="wallets" class="w-full p-3 bg-black/40 rounded"
-    placeholder="wallet1,wallet2"></textarea>
+    let signals = []
 
-  <button onclick="start()" class="btn w-full mt-3 py-2 rounded">
-    Start Tracking
-  </button>
-</div>
+    // =====================
+    // 🧠 SCORING ENGINE
+    // =====================
 
-<!-- SCORE -->
-<div class="glass p-4 mb-4">
-  <div class="flex justify-between text-sm mb-2">
-    <span>Signal Strength</span>
-    <span id="scoreText">0</span>
-  </div>
-  <div class="w-full h-2 bg-gray-800 rounded">
-    <div id="bar" class="h-2 bg-green-400 rounded" style="width:0%"></div>
-  </div>
-</div>
+    let score = 0
 
-<!-- FEED -->
-<div class="glass p-4 mb-4">
-  <div id="feed"></div>
-</div>
-
-<!-- SWAP -->
-<div class="glass p-3">
-  <div id="jup"></div>
-</div>
-
-<script>
-
-const API = "https://36738a46-2101-429d-85a9-11cb89aced46-00-3o91ocjvheqfp.sisko.replit.dev"
-
-let timer
-
-function start(){
-  const wallets = walletsInput().split(",").map(x=>x.trim()).filter(Boolean)
-  if(wallets.length===0) return alert("isi wallet")
-
-  clearInterval(timer)
-
-  run(wallets)
-  timer = setInterval(()=>run(wallets),5000)
-}
-
-function walletsInput(){
-  return document.getElementById("wallets").value
-}
-
-async function run(wallets){
-  try{
-    const res = await fetch(API+"/feed",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({wallets})
+    // 1. SIZE SCORE
+    allTx.forEach(t=>{
+      if(t.amt > 20) score += 15
+      else if(t.amt > 10) score += 10
+      else if(t.amt > 5) score += 5
     })
 
-    const data = await res.json()
+    // 2. FREQUENCY SCORE
+    const now = Math.floor(Date.now()/1000)
+    const recent = allTx.filter(t=> now - t.time < 60)
 
-    // FEED
-    feed.innerHTML = data.map(d=>      <div class="feed">${d.message}</div>    ).join("")
+    if(recent.length >= 6) score += 20
+    else if(recent.length >= 3) score += 10
 
-    // SCORE
-    const match = (data[0]?.message || "").match(/((\d+))/)
-    const score = match ? parseInt(match[1]) : 0
+    // 3. WALLET DIVERSITY
+    const uniqueWallets = new Set(allTx.map(t=>t.wallet))
+    if(uniqueWallets.size >= 4) score += 20
+    else if(uniqueWallets.size >= 2) score += 10
 
-    bar.style.width = score + "%"
-    scoreText.innerText = score
-
-  }catch{
-    feed.innerHTML="error"
-  }
-}
-
-// JUPITER
-window.onload = () => {
-  if(window.Jupiter){
-    window.Jupiter.init({
-      displayMode:"integrated",
-      integratedTargetId:"jup",
-      endpoint:"https://api.mainnet-beta.solana.com"
+    // 4. CONSISTENCY
+    const grouped = {}
+    allTx.forEach(t=>{
+      if(!grouped[t.wallet]) grouped[t.wallet] = []
+      grouped[t.wallet].push(t.amt)
     })
+
+    Object.values(grouped).forEach(txs=>{
+      if(txs.length >= 3) score += 10
+    })
+
+    // LIMIT SCORE
+    if(score > 100) score = 100
+
+    // =====================
+    // 🎯 SIGNAL OUTPUT
+    // =====================
+
+    if(score >= 70){
+      signals.push({
+        message:`🚀 STRONG SIGNAL (${score})`,
+        level:"danger"
+      })
+    }
+    else if(score >= 40){
+      signals.push({
+        message:`🔥 MEDIUM SIGNAL (${score})`,
+        level:"pump"
+      })
+    }
+    else if(score >= 20){
+      signals.push({
+        message:`👀 WEAK SIGNAL (${score})`,
+        level:"whale"
+      })
+    }
+
+    // =====================
+    // DETAIL SIGNAL
+    // =====================
+
+    allTx.forEach(t=>{
+      if(t.amt > 25){
+        signals.push({
+          message:`🐋 Big Buy ${t.amt.toFixed(2)} SOL`,
+          level:"danger"
+        })
+      }
+      else if(t.amt > 10){
+        signals.push({
+          message:`🚨 Strong Buy ${t.amt.toFixed(2)} SOL`,
+          level:"pump"
+        })
+      }
+      else if(t.amt > 5){
+        signals.push({
+          message:`👀 Accumulation ${t.amt.toFixed(2)} SOL`,
+          level:"whale"
+        })
+      }
+    })
+
+    res.json(signals)
+
+  } catch {
+    res.json([])
   }
-}
-
-</script>
-
-</body>
-</html>
+})
