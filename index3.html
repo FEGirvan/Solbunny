@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solana Ghost 👻 | Alpha Signals v2</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://terminal.jup.ag/main-v6.js"></script>
+
+<style>
+  /* Base Theme */
+  body { background: #050714; color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  
+  /* Neon Gradient Text */
+  .grad-text {
+    background: linear-gradient(135deg, #00ffa3 0%, #00c3ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .glass {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 255, 163, 0.1);
+    border-radius: 20px;
+  }
+
+  .neon-border {
+    border: 1px solid rgba(0, 255, 163, 0.3);
+    box-shadow: 0 0 15px rgba(0, 255, 163, 0.1);
+  }
+
+  .btn-ghost {
+    background: linear-gradient(135deg, #00ffa3 0%, #00c3ff 100%);
+    color: #050714;
+    font-weight: 800;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .btn-ghost:hover {
+    box-shadow: 0 0 25px rgba(0, 255, 163, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .feed-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 4px solid #00ffa3;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  
+  .feed-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Signal Levels */
+  .danger { border-left-color: #ff3b3b; background: rgba(255, 59, 59, 0.05); }
+  .pump { border-left-color: #00c3ff; background: rgba(0, 195, 255, 0.05); }
+  .whale { border-left-color: #00ffa3; background: rgba(0, 255, 163, 0.05); }
+
+  @keyframes pulse-glow {
+    0% { box-shadow: 0 0 10px rgba(0, 255, 163, 0.2); }
+    50% { box-shadow: 0 0 30px rgba(0, 255, 163, 0.4); }
+    100% { box-shadow: 0 0 10px rgba(0, 255, 163, 0.2); }
+  }
+  .logo-glow { animation: pulse-glow 3s infinite; }
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav class="fixed w-full z-50 px-4 py-4">
+  <div class="max-w-6xl mx-auto flex justify-between items-center glass px-6 py-3">
+    <div class="flex items-center gap-3">
+      <img src="G.PNG" class="w-10 h-10 rounded-full border border-[#00ffa3]/30" onerror="this.src='https://via.placeholder.com/40/00ffa3/000000?text=G'">
+      <span class="font-black tracking-tighter text-xl grad-text">SOLANA GHOST</span>
+    </div>
+    <div class="hidden md:flex gap-6 text-sm font-medium opacity-70">
+      <a href="#app" class="hover:text-[#00ffa3] transition">Terminal</a>
+      <a href="#" class="hover:text-[#00ffa3] transition">Signals</a>
+    </div>
+    <a href="#app" class="px-5 py-2 rounded-full btn-ghost text-sm">Launch App</a>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
+  <div class="absolute top-1/4 w-96 h-96 bg-[#00ffa3]/10 blur-[120px] rounded-full"></div>
+  
+  <img src="G.PNG" class="w-36 h-36 mb-8 rounded-full logo-glow border-2 border-[#00ffa3]/20" onerror="this.src='https://via.placeholder.com/150/00ffa3/000000?text=Ghost'">
+  
+  <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight">
+    Hunt the <span class="grad-text">Whales</span><br>With Ghost Vision.
+  </h1>
+  
+  <p class="opacity-60 max-w-lg text-lg mb-10">
+    Advanced Scoring Engine v2: Melacak pergerakan Smart Money secara universal di ekosistem Solana.
+  </p>
+  
+  <div class="flex flex-wrap justify-center gap-4">
+    <a href="#app" class="px-8 py-4 rounded-2xl btn-ghost text-lg">Enter Dashboard 👻</a>
+    <div class="glass px-6 py-4 flex items-center gap-2">
+      <span class="w-2 h-2 bg-green-400 rounded-full animate-ping"></span>
+      <span class="text-sm font-bold uppercase tracking-widest opacity-80">Ghost Engine Live</span>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION INTERFACE -->
+<section id="app" class="max-w-6xl mx-auto px-6 py-20">
+  
+  <div class="grid lg:grid-cols-3 gap-8">
+    
+    <!-- LEFT: CONTROLS & SCORE -->
+    <div class="lg:col-span-1 space-y-6">
+      <div class="glass p-6 neon-border">
+        <h3 class="text-[#00ffa3] font-bold uppercase tracking-widest text-xs mb-4">Target Wallets</h3>
+        <textarea id="wallets" class="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm focus:border-[#00ffa3] outline-none h-32 text-white" 
+          placeholder="Masukkan wallet address (pisahkan dengan koma)..."></textarea>
+        
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <button onclick="start()" class="btn-ghost py-3 rounded-xl">START</button>
+          <button onclick="stopFeed()" class="bg-white/5 hover:bg-white/10 py-3 rounded-xl transition font-bold text-white">STOP</button>
+        </div>
+      </div>
+
+      <div class="glass p-6">
+        <div class="flex justify-between items-end mb-4">
+          <div>
+            <h3 class="opacity-50 text-xs uppercase font-bold">Signal Strength</h3>
+            <div id="scoreLabel" class="text-3xl font-black">—</div>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] bg-white/10 px-2 py-1 rounded">ENGINE V2.0</span>
+          </div>
+        </div>
+        <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+          <div id="scoreBar" class="h-full bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: LIVE FEED -->
+    <div class="lg:col-span-2">
+      <div class="glass p-6 h-full min-h-[500px] flex flex-col">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="font-bold flex items-center gap-2">
+            <span class="w-2 h-2 bg-[#00ffa3] rounded-full"></span>
+            LIVE ALPHA FEED
+          </h3>
+          <span class="text-xs opacity-40">Auto-refresh: 5s</span>
+        </div>
+        <div id="feed" class="space-y-3 overflow-y-auto max-h-[600px] pr-2">
+          <div class="text-center py-20 opacity-20 italic">Awaiting target nodes...</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JUPITER TERMINAL INTEGRATION -->
+  <div class="mt-12">
+    <div class="flex items-center gap-4 mb-6">
+      <div class="h-[1px] flex-1 bg-white/10"></div>
+      <h3 class="grad-text font-black text-xl tracking-tighter uppercase">Quick Swap & Follow</h3>
+      <div class="h-[1px] flex-1 bg-white/10"></div>
+    </div>
+    <div id="jup" class="glass p-2 min-h-[500px] neon-border"></div>
+  </div>
+
+</section>
+
+<footer class="py-20 text-center border-t border-white/5">
+  <img src="G.PNG" class="w-12 h-12 mx-auto mb-4 rounded-full opacity-50" onerror="this.src='https://via.placeholder.com/50/00ffa3/000000?text=G'">
+  <p class="opacity-30 text-[10px] tracking-widest uppercase font-bold">&copy; 2026 Solana Ghost Ecosystem</p>
+</footer>
+
+<script>
+// ==== KONFIGURASI BACKEND & REFERRAL ====
+const API = "https://36738a46-2101-429d-85a9-11cb89aced46-00-3o91ocjvheqfp.sisko.replit.dev";
+const MY_REFERRAL_KEY = "MASUKKAN_KEY_DARI_REFERRAL_JUP_AG_DI_SINI"; // 🔥 GANTI INI DENGAN KEY KAMU
+
+let timer = null;
+
+function stopFeed() {
+  if(timer) { clearInterval(timer); timer = null; }
+}
+
+// Fungsi untuk update Jupiter Terminal ke token tertentu
+function followTrade(mintAddress) {
+  if (window.Jupiter && mintAddress) {
+    window.Jupiter.resume({
+      initialOutputMint: mintAddress
+    });
+    document.getElementById('jup').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+async function tick(wallets) {
+  try {
+    const res = await fetch(API + "/feed", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ wallets })
+    });
+    const data = await res.json();
+
+    const el = document.getElementById("feed");
+    if(!data || data.length === 0) {
+      el.innerHTML = `<div class="text-center py-10 opacity-30 text-sm italic">Scanning network... No signals found.</div>`;
+      return;
+    }
+
+    el.innerHTML = data.map(d => `
+      <div class="feed-item ${d.level || 'whale'} p-4 rounded-r-xl mb-2 flex justify-between items-center animate-fadeIn" 
+           onclick="followTrade('${d.tokenMint}')">
+        <div>
+           <span class="font-bold text-sm tracking-tight text-white">${d.message}</span>
+           <br/><small class="text-[9px] text-[#00ffa3] font-bold">CLICK TO FOLLOW</small>
+        </div>
+        <span class="text-[10px] opacity-40 uppercase">${new Date().toLocaleTimeString()}</span>
+      </div>
+    `).join("");
+
+    // Update Score Bar
+    const firstMsg = data[0]?.message || "";
+    const scoreMatch = firstMsg.match(/\((\d+)\)/);
+    const score = scoreMatch ? Math.min(100, Number(scoreMatch[1])) : 0;
+
+    document.getElementById("scoreBar").style.width = score + "%";
+    const label = document.getElementById("scoreLabel");
+    
+    if(score >= 70) label.innerHTML = `<span class="text-red-400">🔥 ${score}</span>`;
+    else if(score >= 40) label.innerHTML = `<span class="text-blue-400">⚡ ${score}</span>`;
+    else if(score >= 20) label.innerHTML = `<span class="text-[#00ffa3]">👀 ${score}</span>`;
+    else label.textContent = score || "—";
+
+  } catch(e) {
+    document.getElementById("feed").innerHTML = `<div class="text-red-400 text-xs p-4">Error connecting to backend...</div>`;
+  }
+}
+
+function start() {
+  const input = document.getElementById("wallets").value;
+  const wallets = input.split(",").map(s => s.trim()).filter(Boolean);
+
+  if(wallets.length === 0) {
+    alert("Masukkan minimal satu alamat wallet!");
+    return;
+  }
+
+  stopFeed();
+  tick(wallets);
+  timer = setInterval(() => tick(wallets), 5000);
+}
+
+// JUPITER TERMINAL INITIALIZATION
+window.addEventListener("load", () => {
+  if(window.Jupiter) {
+    window.Jupiter.init({
+      displayMode: "integrated",
+      integratedTargetId: "jup",
+      endpoint: "https://api.mainnet-beta.solana.com",
+      colorScheme: "dark",
+      referral: {
+        publicKey: MY_REFERRAL_KEY, 
+        feeBps: 100 // Jatah 1% kamu dari setiap transaksi
+      },
+      formProps: {
+        initialInputMint: "So11111111111111111111111111111111111111112",
+        initialOutputMint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+      },
+      containerStyles: { borderRadius: "18px", width: "100%", border: "1px solid rgba(0, 255, 163, 0.2)" }
+    });
+  }
+});
+</script>
+
+</body>
+</html>
