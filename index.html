@@ -7,102 +7,91 @@
 <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 
 <style>
-* {margin:0;padding:0;box-sizing:border-box;}
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background: radial-gradient(circle at top, #0f172a, #020617);
   color: white;
 }
 
-/* CENTER /
+/* CONTAINER /
 .container {
-  max-width: 1000px;
+  max-width: 500px;
   margin: auto;
-  padding: 40px 20px;
+  padding: 20px;
 }
 
 / HERO /
 .hero {
-  text-align: center;
-  margin-bottom: 50px;
+  text-align:center;
+  margin-bottom:30px;
 }
 
 .logo {
-  width: 90px;
-  margin-bottom: 10px;
-  filter: drop-shadow(0 0 20px #00ffa3);
+  width:70px;
+  margin-bottom:10px;
 }
 
-.hero h1 {
-  font-size: 48px;
-  background: linear-gradient(90deg,#00ffa3,#00c3ff);
-  -webkit-background-clip: text;
-  color: transparent;
+h1 {
+  font-size:28px;
+  margin-bottom:5px;
 }
 
-.hero p {
-  color: #94a3b8;
-  margin-top: 10px;
+.sub {
+  color:#94a3b8;
+  font-size:14px;
 }
 
-/ GLASS CARD /
+/ CARD /
 .card {
   background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 20px;
-  border-radius: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 40px rgba(0,255,163,0.05);
+  backdrop-filter: blur(15px);
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:15px;
 }
 
 / INPUT /
-textarea,input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(0,0,0,0.5);
-  color: white;
-  margin-top: 10px;
+textarea, input {
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin-top:10px;
+  background:#020617;
+  color:white;
+  font-size:14px;
 }
 
 / BUTTON /
 button {
-  margin-top: 12px;
-  padding: 12px;
-  width: 100%;
-  border-radius: 10px;
-  border: none;
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
   background: linear-gradient(90deg,#00ffa3,#00c3ff);
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 20px #00ffa3;
+  color:black;
+  font-weight:bold;
+  font-size:14px;
 }
 
 / FEED /
 .feed-item {
-  padding: 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  animation: fadeIn .3s;
-}
-
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(5px)}
-  to {opacity:1}
+  padding:10px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  font-size:13px;
 }
 
 / COLORS */
-.whale { color:#00ffa3; }
-.pump { color:#00c3ff; }
-.danger { color:#ff3b3b; }
+.whale {color:#00ffa3;}
+.pump {color:#00c3ff;}
+.danger {color:#ff3b3b;}
 
 </style>
 </head>
@@ -111,20 +100,17 @@ button:hover {
 
 <div class="container">
 
-<!-- HERO -->
 <div class="hero">
   <img src="G.png" class="logo">
   <h1>SOLANA GHOST</h1>
-  <p>Track whales. Detect signals. Trade instantly.</p>
+  <p class="sub">Track whales • Detect signals • Trade instantly</p>
 </div>
 
-<!-- WALLET -->
 <div class="card">
   <button onclick="connect()">Connect Wallet</button>
   <p id="addr"></p>
 </div>
 
-<!-- FEED -->
 <div class="card">
   <h3>👻 Ghost Feed</h3>
   <textarea id="wallets" placeholder="wallet1,wallet2"></textarea>
@@ -132,20 +118,20 @@ button:hover {
   <div id="feed"></div>
 </div>
 
-<!-- SWAP -->
 <div class="card">
   <h3>💱 Swap</h3>
   <input id="amount" placeholder="Amount SOL (0.01)">
   <input id="slippage" placeholder="Slippage % (1)">
   <button onclick="preview()">Preview</button>
   <div id="preview"></div>
-  <button onclick="execute()">Execute Swap</button>
+  <button onclick="execute()">Execute</button>
 </div>
 
 </div>
 
 <script>
-const API="http://localhost:3000"
+const API="https://YOUR-BACKEND-URL" // ⚠️ GANTI kalau deploy
+
 let provider,wallet,route
 
 async function connect(){
@@ -153,7 +139,7 @@ async function connect(){
   if(!provider) return alert("Install Phantom")
   const r=await provider.connect()
   wallet=r.publicKey.toString()
-  addr.innerText=wallet
+  addr.innerText=wallet.slice(0,6)+"..."+wallet.slice(-4)
 }
 
 async function start(){
@@ -169,49 +155,6 @@ async function start(){
 
     feed.innerHTML=data.map(d=>      <div class="feed-item ${d.level}">         ${d.message}       </div>    ).join("")
   },5000)
-}
-
-async function preview(){
-  const amt=Number(amount.value)*1e9
-  const slip=Number(slippage.value||1)
-
-  const res=await fetch(
-    https://quote-api.jup.ag/v6/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&amount=${amt}&slippageBps=${slip*100}
-  )
-
-  const data=await res.json()
-  route=data.data[0]
-
-  preview.innerText="Est: "+route.outAmount/1e6+" USDC"
-}
-
-async function execute(){
-  if(!provider) return alert("Connect wallet dulu")
-  if(!route) return alert("Preview dulu")
-
-  if(!confirm("Confirm swap?")) return
-
-  const swap=await fetch("https://quote-api.jup.ag/v6/swap",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      route,
-      userPublicKey:wallet,
-      wrapAndUnwrapSol:true
-    })
-  }).then(r=>r.json())
-
-  const tx=swap.swapTransaction
-  const conn=new solanaWeb3.Connection("https://api.mainnet-beta.solana.com")
-
-  const transaction=solanaWeb3.Transaction.from(
-    Uint8Array.from(atob(tx),c=>c.charCodeAt(0))
-  )
-
-  const signed=await provider.signTransaction(transaction)
-  const sig=await conn.sendRawTransaction(signed.serialize())
-
-  alert("Success: "+sig)
 }
 </script>
 
