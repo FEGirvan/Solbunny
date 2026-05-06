@@ -1,264 +1,151 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@plugin "@tailwindcss/typography";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost Whale Dashboard</title>
 
-@custom-variant dark (&:is(.dark *));
+<script src="https://cdn.tailwindcss.com"></script>
 
-@theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-card-border: hsl(var(--card-border));
-
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-popover-border: hsl(var(--popover-border));
-
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-primary-border: var(--primary-border);
-
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-secondary-border: var(--secondary-border);
-
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-muted-border: var(--muted-border);
-
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-accent-border: var(--accent-border);
-
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-destructive-border: var(--destructive-border);
-
-  --font-sans: var(--app-font-sans);
-  --font-mono: var(--app-font-mono);
-
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-}
-
-:root {
-  --background: 230 25% 4%;
-  --foreground: 210 20% 95%;
-
-  --card: 230 20% 7%;
-  --card-foreground: 210 20% 95%;
-  --card-border: 230 15% 14%;
-
-  --popover: 230 20% 7%;
-  --popover-foreground: 210 20% 95%;
-  --popover-border: 230 15% 14%;
-
-  --primary: 160 80% 52%;
-  --primary-foreground: 230 25% 4%;
-  --primary-border: 160 80% 40%;
-
-  --secondary: 230 15% 12%;
-  --secondary-foreground: 210 20% 95%;
-  --secondary-border: 230 15% 18%;
-
-  --muted: 230 15% 14%;
-  --muted-foreground: 230 10% 52%;
-  --muted-border: 230 15% 18%;
-
-  --accent: 160 80% 52%;
-  --accent-foreground: 230 25% 4%;
-  --accent-border: 160 80% 40%;
-
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 210 20% 95%;
-  --destructive-border: 0 84% 50%;
-
-  --border: 230 15% 14%;
-  --input: 230 15% 11%;
-  --ring: 160 80% 52%;
-
-  --app-font-sans: 'Inter', sans-serif;
-  --app-font-mono: 'Space Mono', 'Menlo', monospace;
-  --radius: 0.5rem;
-
-  --sidebar-primary-border: hsl(var(--sidebar-primary));
-  --sidebar-accent-border: hsl(var(--sidebar-accent));
-}
-
-.dark {
-  --background: 230 25% 4%;
-  --foreground: 210 20% 95%;
-  --card: 230 20% 7%;
-  --card-foreground: 210 20% 95%;
-  --card-border: 230 15% 14%;
-  --popover: 230 20% 7%;
-  --popover-foreground: 210 20% 95%;
-  --popover-border: 230 15% 14%;
-  --primary: 160 80% 52%;
-  --primary-foreground: 230 25% 4%;
-  --primary-border: 160 80% 40%;
-  --secondary: 230 15% 12%;
-  --secondary-foreground: 210 20% 95%;
-  --secondary-border: 230 15% 18%;
-  --muted: 230 15% 14%;
-  --muted-foreground: 230 10% 52%;
-  --muted-border: 230 15% 18%;
-  --accent: 160 80% 52%;
-  --accent-foreground: 230 25% 4%;
-  --accent-border: 160 80% 40%;
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 210 20% 95%;
-  --destructive-border: 0 84% 50%;
-  --border: 230 15% 14%;
-  --input: 230 15% 11%;
-  --ring: 160 80% 52%;
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply font-sans antialiased bg-background text-foreground;
-  }
-}
-
-/* ── Glassmorphism card ── */
+<style>
+body { background:#050714; color:#e2e8f0; font-family: monospace; }
 .glass {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.03) inset,
-    0 8px 40px rgba(0, 0, 0, 0.5);
+  background: rgba(15,23,42,0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+}
+.feed-item {
+  border-left: 4px solid #00ffa3;
+  padding: 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+.danger { border-color:#ff3b3b }
+.pump { border-color:#ff9900 }
+.whale { border-color:#00ffa3 }
+</style>
+</head>
+
+<body>
+
+<div class="max-w-6xl mx-auto p-6">
+
+<h1 class="text-3xl font-bold mb-6 text-green-400">👻 Ghost Whale Terminal</h1>
+
+<!-- WALLET INPUT -->
+<div class="glass p-4 mb-6">
+  <form onsubmit="addWallet(event)">
+    <input id="walletInput"
+      placeholder="Enter wallet address..."
+      class="w-full p-3 bg-black/40 rounded mb-3">
+    <button class="bg-green-400 text-black px-4 py-2 rounded">Add Wallet</button>
+  </form>
+
+  <div id="walletList" class="mt-4 space-y-2"></div>
+</div>
+
+<!-- STATUS -->
+<div class="flex gap-6 mb-4 text-sm">
+  <div>Status: <span id="status">Idle</span></div>
+  <div>Signals: <span id="signalCount">0</span></div>
+</div>
+
+<!-- FEED -->
+<div id="feed" class="glass p-4 min-h-[300px]">
+  Waiting for signals...
+</div>
+
+</div>
+
+<script>
+// ================= CONFIG =================
+const API = "https://your-backend.replit.dev"; // GANTI INI
+
+let wallets = [];
+let timer = null;
+let totalSignals = 0;
+
+// ================= WALLET =================
+function renderWallets(){
+  const el = document.getElementById("walletList");
+
+  if(wallets.length === 0){
+    el.innerHTML = "<div class='text-white/20'>No wallets</div>";
+    return;
+  }
+
+  el.innerHTML = wallets.map(w => `
+    <div class="flex justify-between items-center bg-white/5 p-2 rounded">
+      <span>${w.slice(0,6)}...${w.slice(-4)}</span>
+      <button onclick="removeWallet('${w}')">❌</button>
+    </div>
+  `).join("");
 }
 
-.glass-header {
-  background: rgba(10, 12, 22, 0.7);
-  backdrop-filter: blur(32px) saturate(160%);
-  -webkit-backdrop-filter: blur(32px) saturate(160%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.04);
+function addWallet(e){
+  e.preventDefault();
+  const input = document.getElementById("walletInput");
+  const val = input.value.trim();
+
+  if(!val) return;
+
+  wallets.push(val);
+  input.value = "";
+  renderWallets();
 }
 
-.glass-input {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+function removeWallet(w){
+  wallets = wallets.filter(x => x !== w);
+  renderWallets();
 }
 
-.glass-input:focus {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(52, 211, 153, 0.4);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.12);
+// ================= FEED =================
+async function fetchFeed(){
+  if(wallets.length === 0) return;
+
+  document.getElementById("status").innerText = "Scanning...";
+
+  try {
+    const res = await fetch(API + "/feed", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ wallets })
+    });
+
+    const data = await res.json();
+    const el = document.getElementById("feed");
+
+    if(!data || data.length === 0){
+      el.innerHTML = "No signals...";
+      return;
+    }
+
+    totalSignals += data.length;
+    document.getElementById("signalCount").innerText = totalSignals;
+
+    el.innerHTML = data.map(d => `
+      <div class="feed-item ${d.level}">
+        <b>${d.message}</b>
+      </div>
+    `).join("");
+
+  } catch(e){
+    console.error(e);
+  }
+
+  document.getElementById("status").innerText = "Live";
 }
 
-/* ── Orb background blobs ── */
-.orb {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(120px);
-  pointer-events: none;
-  z-index: 0;
+// ================= START =================
+function start(){
+  if(timer) clearInterval(timer);
+  fetchFeed();
+  timer = setInterval(fetchFeed, 5000);
 }
 
-.orb-teal {
-  width: 900px;
-  height: 900px;
-  background: radial-gradient(circle, rgba(20, 210, 155, 0.28) 0%, rgba(20, 210, 155, 0.08) 45%, transparent 70%);
-  top: -280px;
-  right: -220px;
-}
+start();
+</script>
 
-.orb-purple {
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(140, 50, 230, 0.22) 0%, rgba(100, 40, 180, 0.07) 50%, transparent 70%);
-  bottom: -180px;
-  left: -140px;
-}
-
-.orb-blue {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(40, 120, 240, 0.14) 0%, transparent 70%);
-  top: 38%;
-  left: 32%;
-}
-
-/* ── Scanline ── */
-.scanline {
-  width: 100%;
-  height: 120px;
-  z-index: 9999;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    0deg,
-    rgba(0,0,0,0) 0%,
-    rgba(20, 200, 150, 0.06) 50%,
-    rgba(0,0,0,0) 100%
-  );
-  animation: scanline 12s linear infinite;
-}
-
-@keyframes scanline {
-  0%  { transform: translateY(-120px); }
-  100%{ transform: translateY(100vh); }
-}
-
-/* ── Glow text ── */
-.glow-text {
-  text-shadow:
-    0 0 12px rgba(52, 211, 153, 0.7),
-    0 0 30px rgba(52, 211, 153, 0.3);
-}
-
-.glow-dot {
-  box-shadow: 0 0 8px currentColor;
-}
-
-/* ── Alert row glass variants ── */
-.alert-danger {
-  background: rgba(239, 68, 68, 0.07);
-  border: 1px solid rgba(239, 68, 68, 0.22);
-  backdrop-filter: blur(12px);
-}
-
-.alert-pump {
-  background: rgba(249, 115, 22, 0.07);
-  border: 1px solid rgba(249, 115, 22, 0.22);
-  backdrop-filter: blur(12px);
-}
-
-.alert-whale {
-  background: rgba(52, 211, 153, 0.06);
-  border: 1px solid rgba(52, 211, 153, 0.20);
-  backdrop-filter: blur(12px);
-}
-
-.alert-scanning {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(8px);
-}
-
-/* ── Stat card ── */
-.stat-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-}
+</body>
+</html>
