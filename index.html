@@ -1,71 +1,204 @@
-import React from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solana Ghost 👻</title>
 
-const SolanaGhostDashboard = () => {
-  return (
-    <div className="min-h-screen bg-[#0a0f1a] text-white p-4 font-sans">
-      {/* Header Profile */}
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-3">
-          <img src="/logo-ghost.png" alt="Solana Ghost" className="w-12 h-12" />
-          <div>
-            <h1 className="text-xl font-bold tracking-tight">SOLANA GHOST</h1>
-            <p className="text-xs text-gray-400">@ghost_dev.sol</p>
-          </div>
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: #00ffa3;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+/* HEADER */
+h1 {
+  text-align: center;
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #94a3b8;
+  margin-bottom: 40px;
+}
+
+/* CARD */
+.card {
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,255,163,0.2);
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 30px rgba(0,255,163,0.05);
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #020617;
+  color: #00ffa3;
+  outline: none;
+}
+
+/* BUTTON */
+button {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #00ffa3, #00c3ff);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.03);
+}
+
+/* OUTPUT */
+.output {
+  margin-top: 15px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* BADGE */
+.signal {
+  color: #ff00aa;
+  font-weight: bold;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #64748b;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>👻 SOLANA GHOST</h1>
+<p class="subtitle">
+Real-time on-chain intelligence powered by Helius + Jupiter
+</p>
+
+<!-- 👻 TRACKER -->
+<div class="card">
+<h2>Ghost Tracker</h2>
+<input id="wallet" placeholder="Enter wallet address..." />
+<button onclick="track()">Scan Wallet</button>
+
+<div id="result" class="output"></div>
+</div>
+
+<!-- 💱 SWAP -->
+<div class="card">
+<h2>Swap Quote</h2>
+<input id="amount" placeholder="Amount (lamports)" />
+<button onclick="getQuote()">Get Quote</button>
+
+<div id="quote" class="output"></div>
+</div>
+
+<div class="footer">
+👻 Watching the chain. Tracking the unseen.
+</div>
+
+</div>
+
+<script>
+const API = "http://localhost:3000"
+
+// 👻 TRACK WALLET
+async function track() {
+  const wallet = document.getElementById("wallet").value
+
+  if (!wallet) {
+    alert("Enter wallet first")
+    return
+  }
+
+  document.getElementById("result").innerHTML = "Scanning..."
+
+  try {
+    const res = await fetch(`${API}/ghost/${wallet}`)
+    const data = await res.json()
+
+    if (!data.length) {
+      document.getElementById("result").innerHTML = "No activity found"
+      return
+    }
+
+    document.getElementById("result").innerHTML =
+      data.map(tx => `
+        <div>
+          ${tx.type} | ${tx.amount.toFixed(2)} SOL 
+          ${tx.signal ? `<span class="signal"> - ${tx.signal}</span>` : ""}
         </div>
-        <div className="bg-[#162033] px-4 py-2 rounded-full border border-cyan-500/30 flex items-center gap-2">
-          <span className="text-cyan-400 font-bold">👻 150</span>
-          <span className="text-[10px] text-gray-400">Points</span>
-        </div>
-      </div>
+      `).join("")
 
-      {/* Stats Section */}
-      <div className="grid grid-cols-3 gap-3 mb-8">
-        {[
-          { label: 'Total Tasks', val: '12' },
-          { label: 'Completed', val: '4' },
-          { label: 'Rank', val: '#42' }
-        ].map((stat, i) => (
-          <div key={i} className="bg-[#111827] p-3 rounded-2xl border border-gray-800 text-center">
-            <p className="text-[10px] text-gray-500 uppercase">{stat.label}</p>
-            <p className="text-lg font-bold text-cyan-400">{stat.val}</p>
-          </div>
-        ))}
-      </div>
+  } catch (err) {
+    document.getElementById("result").innerHTML = "Error fetching data"
+  }
+}
 
-      {/* Active Tasks */}
-      <h2 className="text-sm font-semibold mb-4 text-gray-400 uppercase tracking-widest">Active Quests</h2>
-      <div className="space-y-4">
-        <TaskCard 
-          title="Join Ghost Telegram" 
-          reward="50" 
-          link="https://t.me/solanaghost" 
-        />
-        <TaskCard 
-          title="Follow Ghost Twitter" 
-          reward="30" 
-          link="https://x.com/solanaghost" 
-        />
-      </div>
-    </div>
-  );
-};
+// 💱 QUOTE
+async function getQuote() {
+  const amount = document.getElementById("amount").value
 
-// Reusable Task Card Component
-const TaskCard = ({ title, reward, link }) => (
-  <div className="bg-[#111827] p-5 rounded-2xl border border-gray-800 hover:border-cyan-500/50 transition-all">
-    <div className="flex justify-between items-start mb-4">
-      <div>
-        <h3 className="font-bold text-lg">{title}</h3>
-        <a href={link} className="text-cyan-400 text-sm underline decoration-cyan-500/30">Open Link</a>
-      </div>
-      <div className="bg-cyan-500/10 text-cyan-400 px-3 py-1 rounded-lg text-sm font-bold">
-        +{reward} PTS
-      </div>
-    </div>
-    <button className="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-cyan-900/20">
-      Submit Proof
-    </button>
-  </div>
-);
+  if (!amount) {
+    alert("Enter amount")
+    return
+  }
 
-export default SolanaGhostDashboard;
+  document.getElementById("quote").innerHTML = "Loading..."
+
+  try {
+    const res = await fetch(
+      `${API}/quote?input=So11111111111111111111111111111111111111112&output=Es9vMFrzaCERv...&amount=${amount}`
+    )
+
+    const data = await res.json()
+
+    document.getElementById("quote").innerHTML =
+      `<pre>${JSON.stringify(data, null, 2)}</pre>`
+
+  } catch (err) {
+    document.getElementById("quote").innerHTML = "Error fetching quote"
+  }
+}
+</script>
+
+</body>
+</html>
