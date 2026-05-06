@@ -1,119 +1,201 @@
-app.post("/feed", async (req, res) => {
-  try {
-    const wallets = req.body.wallets?.slice(0,5) || []
-    let allTx = []
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost Signal 👻 | Solana Alpha Feed</title>
 
-    for (const w of wallets) {
-      const url = `https://api.helius.xyz/v0/addresses/${w}/transactions?api-key=${HELIUS_KEY}`
-      const data = await fetch(url).then(r=>r.json())
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://terminal.jup.ag/main-v4.js"></script>
 
-      data.slice(0,15).forEach(tx=>{
-        const amt = tx.nativeTransfers?.[0]?.amount
-          ? tx.nativeTransfers[0].amount / 1e9
-          : 0
+<style>
+body{background:#020617;color:white;font-family:Inter,sans-serif;}
+.glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.08);border-radius:18px;}
+.glow{box-shadow:0 0 40px rgba(0,255,163,.15);}
+.grad{background:linear-gradient(90deg,#00ffa3,#00c3ff);-webkit-background-clip:text;color:transparent;}
+.btn{background:linear-gradient(90deg,#00ffa3,#00c3ff);color:#001; font-weight:700;}
+.badge{font-size:11px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.08)}
+.feed-item{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px 12px;margin-bottom:8px;background:rgba(255,255,255,.04)}
+.danger{border-color:rgba(255,59,59,.35)}
+.pump{border-color:rgba(0,195,255,.35)}
+.whale{border-color:rgba(0,255,163,.35)}
+</style>
+</head>
 
-        if(amt < 2) return // filter noise
+<body>
 
-        allTx.push({
-          wallet: w,
-          amt,
-          time: tx.timestamp
-        })
-      })
-    }
+<!-- NAV -->
+<nav class="fixed w-full z-50 px-4 py-4">
+  <div class="max-w-6xl mx-auto flex justify-between items-center glass px-5 py-3">
+    <div class="flex items-center gap-3">
+      <img src="G.PNG" class="w-9 h-9 rounded-xl">
+      <span class="font-bold grad">GHOST SIGNAL</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="#app" class="text-sm opacity-80 hover:opacity-100">Launch</a>
+    </div>
+  </div>
+</nav>
 
-    let signals = []
+<!-- HERO -->
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-6">
+  <img src="G.PNG" class="w-28 mb-6 rounded-2xl glow">
+  <h1 class="text-4xl md:text-6xl font-bold mb-4">
+    See the <span class="grad">Alpha</span> Before It Moves
+  </h1>
+  <p class="opacity-70 max-w-md mb-6">
+    Smart on-chain signals (v2): size, frequency, wallet diversity, and consistency—scored in real-time.
+  </p>
+  <div class="flex gap-3">
+    <a href="#app" class="px-6 py-3 rounded-xl btn">Open App 👻</a>
+    <span class="badge">Built on Solana</span>
+  </div>
+</section>
 
-    // =====================
-    // 🧠 SCORING ENGINE
-    // =====================
+<!-- FEATURES -->
+<section class="max-w-5xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-6">
+  <div class="glass p-6">
+    <h3 class="font-bold mb-2">👻 Ghost Feed</h3>
+    <p class="opacity-70 text-sm">Real-time wallet tracking with noise filtering.</p>
+  </div>
+  <div class="glass p-6">
+    <h3 class="font-bold mb-2">🧠 Smart Signals v2</h3>
+    <p class="opacity-70 text-sm">Scoring engine (0–100) from multiple factors.</p>
+  </div>
+  <div class="glass p-6">
+    <h3 class="font-bold mb-2">💱 Instant Swap</h3>
+    <p class="opacity-70 text-sm">Trade directly via Jupiter terminal.</p>
+  </div>
+</section>
 
-    let score = 0
+<!-- APP -->
+<section id="app" class="max-w-5xl mx-auto px-6 py-14">
 
-    // 1. SIZE SCORE
-    allTx.forEach(t=>{
-      if(t.amt > 20) score += 15
-      else if(t.amt > 10) score += 10
-      else if(t.amt > 5) score += 5
+  <!-- CONTROL -->
+  <div class="glass p-5 mb-6">
+    <div class="flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+      <div class="w-full">
+        <label class="text-sm opacity-70">Watch wallets (comma separated)</label>
+        <textarea id="wallets" class="w-full mt-2 p-3 rounded-lg bg-black/50"
+          placeholder="wallet1,wallet2"></textarea>
+      </div>
+      <div class="flex gap-2 md:mt-6">
+        <button onclick="start()" class="px-4 py-3 rounded-lg btn">Start</button>
+        <button onclick="stopFeed()" class="px-4 py-3 rounded-lg bg-white/10">Stop</button>
+      </div>
+    </div>
+    <div class="mt-3 text-xs opacity-60">
+      Tip: 2–5 wallets cukup. Hindari spam biar signal bersih.
+    </div>
+  </div>
+
+  <!-- SCORE -->
+  <div class="glass p-5 mb-6">
+    <div class="flex items-center justify-between mb-2">
+      <h3 class="font-bold">Signal Strength</h3>
+      <span id="scoreLabel" class="badge">—</span>
+    </div>
+    <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
+      <div id="scoreBar" class="h-3 bg-gradient-to-r from-green-400 to-cyan-400" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- FEED -->
+  <div class="glass p-5 mb-6">
+    <h3 class="font-bold mb-3">👻 Live Feed</h3>
+    <div id="feed"></div>
+  </div>
+
+  <!-- SWAP -->
+  <div class="glass p-4">
+    <h3 class="font-bold mb-3">💱 Quick Swap</h3>
+    <div id="jup"></div>
+  </div>
+
+</section>
+
+<footer class="text-center py-10 opacity-60 text-sm">
+  Ghost Engine Active 👻 • v2
+</footer>
+
+<script>
+// ==== CONFIG (PASTE URL BACKEND KAMU) ====
+const API = "https://36738a46-2101-429d-85a9-11cb89aced46-00-3o91ocjvheqfp.sisko.replit.dev"
+
+// ==== FEED LOOP ====
+let timer = null
+
+function stopFeed(){
+  if(timer){ clearInterval(timer); timer=null }
+}
+
+async function tick(wallets){
+  try{
+    const res = await fetch(API + "/feed",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({wallets})
     })
+    const data = await res.json()
 
-    // 2. FREQUENCY SCORE
-    const now = Math.floor(Date.now()/1000)
-    const recent = allTx.filter(t=> now - t.time < 60)
+    // render feed
+    const el = document.getElementById("feed")
+    el.innerHTML = data.map(d=>{
+      return <div class="feed-item ${d.level}">${d.message}</div>
+    }).join("")
 
-    if(recent.length >= 6) score += 20
-    else if(recent.length >= 3) score += 10
+    // extract score from first signal if present "(xx)"
+    const scoreMatch = (data[0]?.message || "").match(/((\d{1,3}))/)
+    const score = scoreMatch ? Math.min(100, Number(scoreMatch[1])) : 0
 
-    // 3. WALLET DIVERSITY
-    const uniqueWallets = new Set(allTx.map(t=>t.wallet))
-    if(uniqueWallets.size >= 4) score += 20
-    else if(uniqueWallets.size >= 2) score += 10
+    // update bar
+    document.getElementById("scoreBar").style.width = score + "%"
+    const label = document.getElementById("scoreLabel")
+    label.textContent = score ? score : "—"
 
-    // 4. CONSISTENCY
-    const grouped = {}
-    allTx.forEach(t=>{
-      if(!grouped[t.wallet]) grouped[t.wallet] = []
-      grouped[t.wallet].push(t.amt)
-    })
+    if(score >= 70) label.textContent = "STRONG " + score
+    else if(score >= 40) label.textContent = "MEDIUM " + score
+    else if(score >= 20) label.textContent = "WEAK " + score
 
-    Object.values(grouped).forEach(txs=>{
-      if(txs.length >= 3) score += 10
-    })
+  }catch(e){
+    document.getElementById("feed").innerHTML = "Error loading..."
+  }
+}
 
-    // LIMIT SCORE
-    if(score > 100) score = 100
+function start(){
+  const wallets = document.getElementById("wallets").value
+    .split(",").map(s=>s.trim()).filter(Boolean)
 
-    // =====================
-    // 🎯 SIGNAL OUTPUT
-    // =====================
+  if(wallets.length === 0){
+    alert("Isi minimal 1 wallet")
+    return
+  }
 
-    if(score >= 70){
-      signals.push({
-        message:`🚀 STRONG SIGNAL (${score})`,
-        level:"danger"
-      })
-    }
-    else if(score >= 40){
-      signals.push({
-        message:`🔥 MEDIUM SIGNAL (${score})`,
-        level:"pump"
-      })
-    }
-    else if(score >= 20){
-      signals.push({
-        message:`👀 WEAK SIGNAL (${score})`,
-        level:"whale"
-      })
-    }
+  stopFeed()
+  tick(wallets)
+  timer = setInterval(()=>tick(wallets), 5000)
+}
 
-    // =====================
-    // DETAIL SIGNAL
-    // =====================
-
-    allTx.forEach(t=>{
-      if(t.amt > 25){
-        signals.push({
-          message:`🐋 Big Buy ${t.amt.toFixed(2)} SOL`,
-          level:"danger"
-        })
+// ==== JUPITER ====
+window.addEventListener("load",()=>{
+  if(window.Jupiter){
+    window.Jupiter.init({
+      displayMode:"integrated",
+      integratedTargetId:"jup",
+      endpoint:"https://api.mainnet-beta.solana.com",
+      colorScheme:"dark",
+      formProps:{
+        initialInputMint:"So11111111111111111111111111111111111111112",
+        initialOutputMint:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+      },
+      containerStyles:{
+        borderRadius:"18px",
+        width:"100%"
       }
-      else if(t.amt > 10){
-        signals.push({
-          message:`🚨 Strong Buy ${t.amt.toFixed(2)} SOL`,
-          level:"pump"
-        })
-      }
-      else if(t.amt > 5){
-        signals.push({
-          message:`👀 Accumulation ${t.amt.toFixed(2)} SOL`,
-          level:"whale"
-        })
-      }
     })
-
-    res.json(signals)
-
-  } catch {
-    res.json([])
   }
 })
+</script>
+
+</body>
+</html>
