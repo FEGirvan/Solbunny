@@ -1,46 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Solana Ghost 👻</title>
 
 <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 
 <style>
+* {margin:0;padding:0;box-sizing:border-box;}
+
 body {
-  background: #020617;
-  color: #00ffa3;
-  font-family: Arial;
-  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: white;
 }
 
+/* CENTER /
 .container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
-  padding: 30px;
+  padding: 40px 20px;
 }
 
+/ HERO /
+.hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.logo {
+  width: 90px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 20px #00ffa3);
+}
+
+.hero h1 {
+  font-size: 48px;
+  background: linear-gradient(90deg,#00ffa3,#00c3ff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  color: #94a3b8;
+  margin-top: 10px;
+}
+
+/ GLASS CARD /
 .card {
-  background: #111827;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 16px;
   margin-bottom: 20px;
+  box-shadow: 0 0 40px rgba(0,255,163,0.05);
 }
 
-textarea, button {
+/ INPUT /
+textarea,input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(0,0,0,0.5);
+  color: white;
   margin-top: 10px;
 }
 
+/ BUTTON /
+button {
+  margin-top: 12px;
+  padding: 12px;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg,#00ffa3,#00c3ff);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px #00ffa3;
+}
+
+/ FEED /
 .feed-item {
-  margin-top: 10px;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  animation: fadeIn .3s;
 }
 
-.whale { color: #00ffa3; }
-.pump { color: #00c3ff; }
-.danger { color: red; }
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(5px)}
+  to {opacity:1}
+}
+
+/ COLORS */
+.whale { color:#00ffa3; }
+.pump { color:#00c3ff; }
+.danger { color:#ff3b3b; }
+
 </style>
 </head>
 
@@ -48,67 +111,107 @@ textarea, button {
 
 <div class="container">
 
-<h1>👻 SOLANA GHOST</h1>
-
-<div class="card">
-<button onclick="connectWallet()">Connect Wallet</button>
-<p id="wallet"></p>
+<!-- HERO -->
+<div class="hero">
+  <img src="G.png" class="logo">
+  <h1>SOLANA GHOST</h1>
+  <p>Track whales. Detect signals. Trade instantly.</p>
 </div>
 
+<!-- WALLET -->
 <div class="card">
-<textarea id="wallets" placeholder="wallet1,wallet2"></textarea>
-<button onclick="startFeed()">Start Feed</button>
-<div id="feed"></div>
+  <button onclick="connect()">Connect Wallet</button>
+  <p id="addr"></p>
+</div>
+
+<!-- FEED -->
+<div class="card">
+  <h3>👻 Ghost Feed</h3>
+  <textarea id="wallets" placeholder="wallet1,wallet2"></textarea>
+  <button onclick="start()">Start Tracking</button>
+  <div id="feed"></div>
+</div>
+
+<!-- SWAP -->
+<div class="card">
+  <h3>💱 Swap</h3>
+  <input id="amount" placeholder="Amount SOL (0.01)">
+  <input id="slippage" placeholder="Slippage % (1)">
+  <button onclick="preview()">Preview</button>
+  <div id="preview"></div>
+  <button onclick="execute()">Execute Swap</button>
 </div>
 
 </div>
 
 <script>
-const API = "http://localhost:3000"
-let provider, wallet, loop
+const API="http://localhost:3000"
+let provider,wallet,route
 
-async function connectWallet() {
-  provider = window.solana
-  if (!provider) return alert("Install Phantom")
-
-  const res = await provider.connect()
-  wallet = res.publicKey.toString()
-
-  document.getElementById("wallet").innerText = wallet
+async function connect(){
+  provider=window.solana
+  if(!provider) return alert("Install Phantom")
+  const r=await provider.connect()
+  wallet=r.publicKey.toString()
+  addr.innerText=wallet
 }
 
-async function startFeed() {
-  const wallets = document.getElementById("wallets").value.split(",")
+async function start(){
+  const wallets=document.getElementById("wallets").value.split(",")
 
-  async function fetchFeed() {
-    try {
-      document.getElementById("feed").innerHTML = "Loading..."
+  setInterval(async ()=>{
+    const res=await fetch(API+"/feed",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({wallets})
+    })
+    const data=await res.json()
 
-      const res = await fetch(API + "/feed", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({ wallets })
-      })
-
-      const data = await res.json()
-
-      document.getElementById("feed").innerHTML =
-        data.map(d =>           <div class="feed-item ${d.level}">             ${d.message}             <br/>             <button onclick="buy()">Buy</button>           </div>        ).join("")
-    } catch {
-      document.getElementById("feed").innerHTML = "Error loading"
-    }
-  }
-
-  fetchFeed()
-  loop = setInterval(fetchFeed, 5000)
+    feed.innerHTML=data.map(d=>      <div class="feed-item ${d.level}">         ${d.message}       </div>    ).join("")
+  },5000)
 }
 
-async function buy() {
-  if (!provider) return alert("Connect wallet dulu")
+async function preview(){
+  const amt=Number(amount.value)*1e9
+  const slip=Number(slippage.value||1)
 
-  if (!confirm("Swap 0.01 SOL ke USDC?")) return
+  const res=await fetch(
+    https://quote-api.jup.ag/v6/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&amount=${amt}&slippageBps=${slip*100}
+  )
 
-  alert("Swap logic jalan (next step bisa kita refine)")
+  const data=await res.json()
+  route=data.data[0]
+
+  preview.innerText="Est: "+route.outAmount/1e6+" USDC"
+}
+
+async function execute(){
+  if(!provider) return alert("Connect wallet dulu")
+  if(!route) return alert("Preview dulu")
+
+  if(!confirm("Confirm swap?")) return
+
+  const swap=await fetch("https://quote-api.jup.ag/v6/swap",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      route,
+      userPublicKey:wallet,
+      wrapAndUnwrapSol:true
+    })
+  }).then(r=>r.json())
+
+  const tx=swap.swapTransaction
+  const conn=new solanaWeb3.Connection("https://api.mainnet-beta.solana.com")
+
+  const transaction=solanaWeb3.Transaction.from(
+    Uint8Array.from(atob(tx),c=>c.charCodeAt(0))
+  )
+
+  const signed=await provider.signTransaction(transaction)
+  const sig=await conn.sendRawTransaction(signed.serialize())
+
+  alert("Success: "+sig)
 }
 </script>
 
