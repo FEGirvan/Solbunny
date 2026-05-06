@@ -1,11 +1,9 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Solana Ghost 👻</title>
-
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 
 <style>
 * {
@@ -20,52 +18,60 @@ body {
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* CONTAINER */
+/* CONTAINER /
 .container {
   max-width: 900px;
   margin: auto;
   padding: 40px 20px;
 }
 
-/* HEADER */
-h1 {
+/ HEADER /
+.header {
   text-align: center;
-  font-size: 42px;
+  margin-bottom: 30px;
+}
+
+.logo {
+  width: 80px;
   margin-bottom: 10px;
 }
 
-.subtitle {
-  text-align: center;
-  color: #94a3b8;
-  margin-bottom: 40px;
+h1 {
+  font-size: 36px;
 }
 
-/* CARD */
+.subtitle {
+  color: #94a3b8;
+  margin-top: 5px;
+}
+
+/ CARD /
 .card {
   background: rgba(17, 24, 39, 0.6);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(0,255,163,0.2);
-  padding: 25px;
+  padding: 20px;
   border-radius: 16px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   box-shadow: 0 0 30px rgba(0,255,163,0.05);
 }
 
-/* INPUT */
-input {
+/ INPUT /
+textarea {
   width: 100%;
+  height: 90px;
   padding: 12px;
-  margin-top: 10px;
   border-radius: 10px;
-  border: none;
   background: #020617;
   color: #00ffa3;
+  border: none;
   outline: none;
+  resize: none;
 }
 
-/* BUTTON */
+/ BUTTON /
 button {
-  margin-top: 15px;
+  margin-top: 12px;
   padding: 12px;
   width: 100%;
   border-radius: 10px;
@@ -81,25 +87,38 @@ button:hover {
   transform: scale(1.03);
 }
 
-/* OUTPUT */
+/ FEED /
+.feed-item {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/ SIGNAL COLORS /
+.whale { color: #00ffa3; }
+.pump { color: #00c3ff; }
+.danger { color: #ff3b3b; }
+
+/ OUTPUT /
 .output {
   margin-top: 15px;
   font-size: 14px;
   line-height: 1.6;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
-/* BADGE */
-.signal {
-  color: #ff00aa;
-  font-weight: bold;
-}
-
-/* FOOTER */
+/ FOOTER */
 .footer {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 30px;
   color: #64748b;
-  font-size: 13px;
+  font-size: 12px;
 }
 </style>
 </head>
@@ -108,27 +127,22 @@ button:hover {
 
 <div class="container">
 
-<h1>👻 SOLANA GHOST</h1>
-<p class="subtitle">
-Real-time on-chain intelligence powered by Helius + Jupiter
-</p>
-
-<!-- 👻 TRACKER -->
-<div class="card">
-<h2>Ghost Tracker</h2>
-<input id="wallet" placeholder="Enter wallet address..." />
-<button onclick="track()">Scan Wallet</button>
-
-<div id="result" class="output"></div>
+<!-- HEADER -->
+<div class="header">
+  <img src="G.png" class="logo" alt="Ghost Logo">
+  <h1>SOLANA GHOST 👻</h1>
+  <p class="subtitle">Real-time On-chain Intelligence Feed</p>
 </div>
 
-<!-- 💱 SWAP -->
+<!-- FEED -->
 <div class="card">
-<h2>Swap Quote</h2>
-<input id="amount" placeholder="Amount (lamports)" />
-<button onclick="getQuote()">Get Quote</button>
+  <h2>👻 Ghost Feed (Multi Wallet)</h2>
 
-<div id="quote" class="output"></div>
+  <textarea id="wallets" placeholder="Masukkan wallet (pisahkan dengan koma)..."></textarea>
+
+  <button onclick="startFeed()">Start Ghost Feed</button>
+
+  <div id="feed" class="output">Belum ada data...</div>
 </div>
 
 <div class="footer">
@@ -139,64 +153,55 @@ Real-time on-chain intelligence powered by Helius + Jupiter
 
 <script>
 const API = "http://localhost:3000"
+let feedLoop = null
 
-// 👻 TRACK WALLET
-async function track() {
-  const wallet = document.getElementById("wallet").value
+async function startFeed() {
+  const raw = document.getElementById("wallets").value
 
-  if (!wallet) {
-    alert("Enter wallet first")
+  if (!raw) {
+    alert("Masukkan wallet dulu")
     return
   }
 
-  document.getElementById("result").innerHTML = "Scanning..."
+  const wallets = raw.split(",").map(w => w.trim()).filter(w => w)
 
-  try {
-    const res = await fetch(`${API}/ghost/${wallet}`)
-    const data = await res.json()
+  if (wallets.length === 0) {
+    alert("Wallet tidak valid")
+    return
+  }
 
-    if (!data.length) {
-      document.getElementById("result").innerHTML = "No activity found"
-      return
+  if (feedLoop) clearInterval(feedLoop)
+
+  async function fetchFeed() {
+    try {
+      const res = await fetch(${API}/feed, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ wallets })
+      })
+
+      const data = await res.json()
+
+      if (!data || data.length === 0) {
+        document.getElementById("feed").innerHTML = "No signal yet..."
+        return
+      }
+
+      document.getElementById("feed").innerHTML =
+        data.map(item =>           <div class="feed-item ${item.level}">             ${item.message}           </div>        ).join("")
+
+    } catch (err) {
+      document.getElementById("feed").innerHTML = "⚠️ Error loading feed"
     }
-
-    document.getElementById("result").innerHTML =
-      data.map(tx => `
-        <div>
-          ${tx.type} | ${tx.amount.toFixed(2)} SOL 
-          ${tx.signal ? `<span class="signal"> - ${tx.signal}</span>` : ""}
-        </div>
-      `).join("")
-
-  } catch (err) {
-    document.getElementById("result").innerHTML = "Error fetching data"
-  }
-}
-
-// 💱 QUOTE
-async function getQuote() {
-  const amount = document.getElementById("amount").value
-
-  if (!amount) {
-    alert("Enter amount")
-    return
   }
 
-  document.getElementById("quote").innerHTML = "Loading..."
+  // initial load
+  fetchFeed()
 
-  try {
-    const res = await fetch(
-      `${API}/quote?input=So11111111111111111111111111111111111111112&output=Es9vMFrzaCERv...&amount=${amount}`
-    )
-
-    const data = await res.json()
-
-    document.getElementById("quote").innerHTML =
-      `<pre>${JSON.stringify(data, null, 2)}</pre>`
-
-  } catch (err) {
-    document.getElementById("quote").innerHTML = "Error fetching quote"
-  }
+  // auto refresh tiap 5 detik
+  feedLoop = setInterval(fetchFeed, 5000)
 }
 </script>
 
