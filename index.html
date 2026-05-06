@@ -1,202 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Solana Ghost 👻</title>
 
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://terminal.jup.ag/main-v4.js"></script>
 
 <style>
-{margin:0;padding:0;box-sizing:border-box;}
-
 body{
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  background: radial-gradient(circle at top,#0f172a,#020617);
-  color:white;
-}
-
-/ CONTAINER /
-.container{
-  max-width:500px;
-  margin:auto;
-  padding:20px;
-}
-
-/ HERO /
-.hero{text-align:center;margin-bottom:25px;}
-.logo{width:70px;margin-bottom:10px;}
-h1{font-size:26px;}
-.sub{color:#94a3b8;font-size:14px;}
-
-/ CARD /
-.card{
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(15px);
-  border-radius:14px;
-  padding:15px;
-  margin-bottom:15px;
-}
-
-/ INPUT /
-textarea,input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  margin-top:10px;
   background:#020617;
   color:white;
+  font-family:Inter, sans-serif;
 }
 
-/ BUTTON /
-button{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
+.glass{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;
+}
+
+.glow{
+  box-shadow:0 0 40px rgba(0,255,163,0.15);
+}
+
+.gradient-text{
   background:linear-gradient(90deg,#00ffa3,#00c3ff);
-  color:black;
-  font-weight:bold;
+  -webkit-background-clip:text;
+  color:transparent;
 }
-
-/ FEED */
-.feed-item{
-  padding:10px;
-  border-bottom:1px solid rgba(255,255,255,0.05);
-  font-size:13px;
-}
-
-.whale{color:#00ffa3;}
-.pump{color:#00c3ff;}
-.danger{color:#ff3b3b;}
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- NAV -->
+<nav class="fixed w-full z-50 px-4 py-4">
+  <div class="max-w-6xl mx-auto flex justify-between items-center glass px-6 py-3">
+    <div class="flex items-center gap-3">
+      <img src="G.PNG" class="w-10 h-10 rounded-xl">
+      <h1 class="font-bold gradient-text">SOLANA GHOST</h1>
+    </div>
 
-<div class="hero">
-  <img src="G.png" class="logo">
-  <h1>SOLANA GHOST</h1>
-  <p class="sub">Track whales • Detect signals • Trade instantly</p>
-</div>
+    <a href="#app" class="text-sm opacity-80 hover:opacity-100">
+      Enter App →
+    </a>
+  </div>
+</nav>
 
-<!-- WALLET -->
-<div class="card">
-  <button onclick="connect()">Connect Wallet</button>
-  <p id="addr"></p>
-</div>
+<!-- HERO -->
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-6">
 
-<!-- FEED -->
-<div class="card">
-  <h3>👻 Ghost Feed</h3>
-  <textarea id="wallets" placeholder="wallet1,wallet2"></textarea>
-  <button onclick="start()">Start Tracking</button>
-  <div id="feed"></div>
-</div>
+  <img src="G.PNG" class="w-32 mb-6 glow rounded-2xl">
 
-<!-- SWAP -->
-<div class="card">
-  <h3>💱 Swap</h3>
-  <input id="amount" placeholder="Amount SOL (0.01)">
-  <input id="slippage" placeholder="Slippage % (1)">
-  <button onclick="preview()">Preview</button>
-  <div id="preview"></div>
-  <button onclick="execute()">Execute Swap</button>
-</div>
+  <h1 class="text-4xl md:text-6xl font-bold mb-4">
+    Track the <span class="gradient-text">Invisible</span>
+  </h1>
 
-</div>
+  <p class="opacity-70 max-w-md mb-6">
+    Real-time whale tracking, smart signals, and instant trading on Solana.
+  </p>
+
+  <a href="#app" class="px-6 py-3 bg-gradient-to-r from-green-400 to-cyan-400 text-black rounded-xl font-bold">
+    Launch Ghost 👻
+  </a>
+
+</section>
+
+<!-- FEATURES -->
+<section class="max-w-5xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-6">
+
+  <div class="glass p-6">
+    <h3 class="mb-2 font-bold">👻 Ghost Feed</h3>
+    <p class="opacity-70 text-sm">Track wallet activity in real-time.</p>
+  </div>
+
+  <div class="glass p-6">
+    <h3 class="mb-2 font-bold">🔥 Smart Signals</h3>
+    <p class="opacity-70 text-sm">Detect unusual on-chain movements.</p>
+  </div>
+
+  <div class="glass p-6">
+    <h3 class="mb-2 font-bold">💱 Instant Swap</h3>
+    <p class="opacity-70 text-sm">Trade directly via Jupiter.</p>
+  </div>
+
+</section>
+
+<!-- APP -->
+<section id="app" class="max-w-5xl mx-auto px-6 py-16">
+
+  <h2 class="text-2xl font-bold mb-6 text-center">Ghost Terminal</h2>
+
+  <!-- FEED -->
+  <div class="glass p-6 mb-6">
+    <h3 class="mb-3">👻 Ghost Feed</h3>
+
+    <textarea id="wallets" class="w-full p-3 bg-black/50 rounded-lg"
+      placeholder="wallet1,wallet2"></textarea>
+
+    <button onclick="start()" 
+      class="mt-3 w-full py-2 bg-green-400 text-black rounded-lg font-bold">
+      Start Tracking
+    </button>
+
+    <div id="feed" class="mt-4 text-sm"></div>
+  </div>
+
+  <!-- SWAP -->
+  <div class="glass p-4">
+    <div id="jupiter-terminal"></div>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center py-10 opacity-60 text-sm">
+  Built on Solana • Ghost Engine 👻
+</footer>
 
 <script>
 
-// 🔥 BACKEND KAMU (SUDAH LIVE)
+// BACKEND
 const API = "https://36738a46-2101-429d-85a9-11cb89aced46-00-3o91ocjvheqfp.sisko.replit.dev"
 
-let provider, wallet, route
-
-// CONNECT WALLET
-async function connect(){
-  provider = window.solana
-  if(!provider) return alert("Install Phantom")
-
-  const res = await provider.connect()
-  wallet = res.publicKey.toString()
-
-  document.getElementById("addr").innerText =
-    wallet.slice(0,6) + "..." + wallet.slice(-4)
-}
-
-// START FEED
+// FEED
 async function start(){
-  const wallets = document.getElementById("wallets").value.split(",")
+  const wallets=document.getElementById("wallets").value.split(",")
 
   setInterval(async ()=>{
-    try{
-      const res = await fetch(API + "/feed", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({wallets})
-      })
+    const res=await fetch(API+"/feed",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({wallets})
+    })
 
-      const data = await res.json()
+    const data=await res.json()
 
-      document.getElementById("feed").innerHTML =
-        data.map(d=>          <div class="feed-item ${d.level}">             ${d.message}           </div>        ).join("")
-    }catch{
-      document.getElementById("feed").innerHTML = "Error loading..."
-    }
+    document.getElementById("feed").innerHTML =
+      data.map(d=><div>${d.message}</div>).join("")
   },5000)
 }
 
-// PREVIEW SWAP
-async function preview(){
-  const amt = Number(document.getElementById("amount").value)*1e9
-  const slip = Number(document.getElementById("slippage").value || 1)
-
-  const res = await fetch(
-    https://quote-api.jup.ag/v6/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&amount=${amt}&slippageBps=${slip*100}
-  )
-
-  const data = await res.json()
-  route = data.data[0]
-
-  document.getElementById("preview").innerText =
-    "Est receive: " + (route.outAmount/1e6).toFixed(2) + " USDC"
-}
-
-// EXECUTE SWAP
-async function execute(){
-  if(!provider) return alert("Connect wallet dulu")
-  if(!route) return alert("Preview dulu")
-
-  if(!confirm("Confirm swap?")) return
-
-  const swap = await fetch("https://quote-api.jup.ag/v6/swap",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({
-      route,
-      userPublicKey: wallet,
-      wrapAndUnwrapSol: true
+// JUPITER
+window.addEventListener("load",()=>{
+  if(window.Jupiter){
+    window.Jupiter.init({
+      displayMode:"integrated",
+      integratedTargetId:"jupiter-terminal",
+      endpoint:"https://api.mainnet-beta.solana.com",
+      formProps:{
+        initialInputMint:"So11111111111111111111111111111111111111112",
+        initialOutputMint:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+      }
     })
-  }).then(r=>r.json())
-
-  const tx = swap.swapTransaction
-
-  const conn = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com")
-
-  const transaction = solanaWeb3.Transaction.from(
-    Uint8Array.from(atob(tx),c=>c.charCodeAt(0))
-  )
-
-  const signed = await provider.signTransaction(transaction)
-  const sig = await conn.sendRawTransaction(signed.serialize())
-
-  alert("SUCCESS: " + sig)
-}
+  }
+})
 
 </script>
 
