@@ -6,7 +6,7 @@
 <title>Solana Ghost 👻 | Alpha Signals v2</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://terminal.jup.ag/main-v6.js"></script>
+<script src="https://terminal.jup.ag/main-v2.js"></script>
 
 
 <style>
@@ -169,23 +169,42 @@
 <script>
 // ==== KONFIGURASI BACKEND & REFERRAL ====
 const API = "https://36738a46-2101-429d-85a9-11cb89aced46-00-3o91ocjvheqfp.sisko.replit.dev";
-const MY_REFERRAL_KEY = "MASUKKAN_KEY_DARI_REFERRAL_JUP_AG_DI_SINI"; // 🔥 Pastikan ini sudah diganti
+
+// 🔥 WAJIB GANTI INI
+const MY_REFERRAL_KEY = "ISI_WALLET_KAMU"; 
 
 let timer = null;
+let jupiterReady = false;
 
+/* =========================
+   STOP FEED
+========================= */
 function stopFeed() {
   if(timer) { clearInterval(timer); timer = null; }
 }
 
+/* =========================
+   FOLLOW TRADE (FIXED)
+========================= */
 function followTrade(mintAddress) {
-  if (window.Jupiter && mintAddress) {
+  if (!jupiterReady) {
+    console.warn("Jupiter belum ready");
+    return;
+  }
+
+  if (mintAddress) {
     window.Jupiter.resume({
+      initialInputMint: "So11111111111111111111111111111111111111112", // SOL
       initialOutputMint: mintAddress
     });
-    document.getElementById('jup').scrollIntoView({ behavior: 'smooth' });
+
+    document.getElementById('jup')?.scrollIntoView({ behavior: 'smooth' });
   }
 }
 
+/* =========================
+   FETCH FEED
+========================= */
 async function tick(wallets) {
   try {
     const res = await fetch(API + "/feed", {
@@ -193,9 +212,11 @@ async function tick(wallets) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ wallets })
     });
+
     const data = await res.json();
 
     const el = document.getElementById("feed");
+
     if(!data || data.length === 0) {
       el.innerHTML = `<div class="text-center py-10 opacity-30 text-sm italic">Scanning network... No signals found.</div>`;
       return;
@@ -212,60 +233,94 @@ async function tick(wallets) {
       </div>
     `).join("");
 
+    // SCORE
     const firstMsg = data[0]?.message || "";
     const scoreMatch = firstMsg.match(/\((\d+)\)/);
     const score = scoreMatch ? Math.min(100, Number(scoreMatch[1])) : 0;
 
-    document.getElementById("scoreBar").style.width = score + "%";
+    const bar = document.getElementById("scoreBar");
     const label = document.getElementById("scoreLabel");
-    
-    if(score >= 70) label.innerHTML = `<span class="text-red-400">🔥 ${score}</span>`;
-    else if(score >= 40) label.innerHTML = `<span class="text-blue-400">⚡ ${score}</span>`;
-    else if(score >= 20) label.innerHTML = `<span class="text-[#00ffa3]">👀 ${score}</span>`;
-    else label.textContent = score || "—";
+
+    if (bar) bar.style.width = score + "%";
+
+    if(label){
+      if(score >= 70) label.innerHTML = `<span style="color:#ff4d4d">🔥 ${score}</span>`;
+      else if(score >= 40) label.innerHTML = `<span style="color:#00cfff">⚡ ${score}</span>`;
+      else if(score >= 20) label.innerHTML = `<span style="color:#00ffa3">👀 ${score}</span>`;
+      else label.textContent = score || "—";
+    }
 
   } catch(e) {
     console.error("Feed error:", e);
   }
 }
 
+/* =========================
+   START TRACKING
+========================= */
 function start() {
   const input = document.getElementById("wallets").value;
   const wallets = input.split(",").map(s => s.trim()).filter(Boolean);
+
   if(wallets.length === 0) return alert("Masukkan wallet!");
+
   stopFeed();
   tick(wallets);
   timer = setInterval(() => tick(wallets), 5000);
 }
 
-// 🔥 FIX JUPITER INITIALIZATION 🔥
+/* =========================
+   INIT JUPITER (SUPER FIX)
+========================= */
 function initJupiter() {
-  if (window.Jupiter) {
-    console.log("Jupiter found, initializing...");
+  if (!window.Jupiter) {
+    console.log("⏳ Menunggu Jupiter script...");
+    return setTimeout(initJupiter, 500);
+  }
+
+  if (!MY_REFERRAL_KEY || MY_REFERRAL_KEY.includes("MASUKKAN")) {
+    console.warn("⚠️ Referral belum diisi! Jupiter tetap jalan tapi tanpa fee.");
+  }
+
+  console.log("✅ Jupiter siap, init...");
+
+  try {
     window.Jupiter.init({
       displayMode: "integrated",
       integratedTargetId: "jup",
       endpoint: "https://api.mainnet-beta.solana.com",
       colorScheme: "dark",
+
+      // 🔥 REFERRAL SYSTEM
       referral: {
-        publicKey: MY_REFERRAL_KEY, 
-        feeBps: 100 
+        publicKey: MY_REFERRAL_KEY || undefined,
+        feeBps: 100
       },
+
       formProps: {
         initialInputMint: "So11111111111111111111111111111111111111112",
         initialOutputMint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
       },
-      containerStyles: { borderRadius: "18px", width: "100%", height: "100%", border: "1px solid rgba(0, 255, 163, 0.2)" }
+
+      containerStyles: {
+        borderRadius: "18px",
+        width: "100%",
+        height: "100%",
+        border: "1px solid rgba(0, 255, 163, 0.2)"
+      }
     });
-  } else {
-    console.log("Jupiter not ready, retrying in 500ms...");
-    setTimeout(initJupiter, 500);
+
+    jupiterReady = true;
+
+  } catch (err) {
+    console.error("❌ Jupiter init error:", err);
   }
 }
 
-// Jalankan fungsi saat window load
-window.onload = initJupiter;
-</script>
+/* =========================
+   LOAD
+========================= */
+window.addEventListener("load", initJupiter);
 
 </script>
 
